@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "277965771",
+    "firebase_url": "https://howlreal-de060.firebaseio.com",
+    "project_id": "howlreal-de060",
+    "storage_bucket": "howlreal-de060.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277965771:android:b3817d745debaf90",
+        "android_client_info": {
+          "package_name": "com.wolf32.cz3002.howlreal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277965771-ujl7933u1v686eo7u7m10h9erc0gf7fv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wolf32.cz3002.howlreal",
+            "certificate_hash": "2ccf6992ff9eae0757b13c0acc53fdcbd09eb097"
+          }
+        },
+        {
+          "client_id": "277965771-1qiub1m9tfrmn13dl5ea1tgff6ub3pr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIPzR1IXNi-uDMVII-FZcVaHluhHS2tTs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277965771-1qiub1m9tfrmn13dl5ea1tgff6ub3pr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

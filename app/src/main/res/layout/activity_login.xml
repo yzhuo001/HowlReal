@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="165dp"
+        android:text="@string/choose_preferences_text"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/btn_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="212dp"
+        android:text="General" />
+
+    <Button
+        android:id="@+id/btn_health"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_general"
+        android:layout_toEndOf="@+id/btn_general"
+        android:text="health" />
+
+    <Button
+        android:id="@+id/btn_sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_health"
+        android:layout_toEndOf="@+id/btn_health"
+        android:text="sports" />
+
+    <Button
+        android:id="@+id/btn_science"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_general"
+        android:layout_toEndOf="@+id/btn_sports"
+        android:text="science" />
+
+    <Button
+        android:id="@+id/btn_technology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btn_general"
+        android:layout_below="@+id/btn_general"
+        android:text="technology" />
+
+    <Button
+        android:id="@+id/btn_business"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_general"
+        android:layout_toEndOf="@+id/btn_technology"
+        android:text="business" />
+
+    <Button
+        android:id="@+id/btn_entertainment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btn_science"
+        android:layout_below="@+id/btn_general"
+        android:text="entertainment" />
+
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="39dp"
+        android:layout_toEndOf="@+id/btn_sports"
+        android:text="Done" />
+</RelativeLayout>

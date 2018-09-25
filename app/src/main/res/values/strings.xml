@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HowlReal</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_application_id">394569264408602</string>
+    <string name="facebook_login_protocol_scheme">fb394569264408602</string>
+    <string name="choose_preferences_text">Choose your category preferences</string>
+</resources>
