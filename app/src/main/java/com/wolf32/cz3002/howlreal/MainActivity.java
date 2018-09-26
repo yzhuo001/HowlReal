@@ -17,7 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -62,9 +66,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //set on startup start view news item
-        Log.e(TAG, "onCreate start item 0");
-        navigationView.getMenu().getItem(0).setChecked(true);
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        Log.e(TAG, "onCreate start item 1");
+        navigationView.getMenu().getItem(1).setChecked(true);
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
+
+        TextView name = findViewById(R.id.textView_nav_name);
+        TextView email = findViewById(R.id.textView_nav_email);
+        ImageView profile_pic = findViewById(R.id.imageView_profile_photo);
+
+
     }
 
     @Override
@@ -107,19 +117,30 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
         Class fragmentClass = null;
-        if (id == R.id.nav_news) {
+
+        if (id == R.id.nav_saved_news){
+            // view saved news
+        } else if (id == R.id.nav_general) {
             // view news fragment
             fragmentClass = NewsFragment.class;
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_health) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_sports) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_science) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_technology) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_business) {
 
+        } else if (id == R.id.nav_entertainment) {
+
+        } else if (id == R.id.nav_settings) {
+            //change layout
+            //change preferences
+
+        } else if (id == R.id.nav_logout) {
+            //logout implementation
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
