@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity
         ImageView profile_pic = findViewById(R.id.imageView_profile_photo);
 
 
+
+
     }
 
     @Override
