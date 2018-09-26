@@ -59,11 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                //new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build()
         );
 
@@ -71,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setLogo(R.mipmap.ic_logo)
+                        .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);

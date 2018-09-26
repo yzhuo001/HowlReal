@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(1).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Saved News");
+        toolbar.setTitle("General");
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
