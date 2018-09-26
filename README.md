@@ -19,3 +19,6 @@ Run project:
 5) Make sure there's no error. 
    Run the project on your Android phone with minimum SDK version 21 (5.0)
 6) If there's error building the project, go to build.gradle (app), check if there's error in that folder.
+
+
+Account information is on google drive to access our database.
