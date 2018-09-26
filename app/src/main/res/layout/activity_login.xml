@@ -15,76 +15,84 @@
 
     <Button
         android:id="@+id/btn_general"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="14dp"
         android:layout_marginTop="212dp"
-        android:visibility="invisible"
-        android:text="General" />
+        android:text="General"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_health"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_general"
         android:layout_toEndOf="@+id/btn_general"
-        android:visibility="invisible"
-        android:text="health" />
+        android:text="health"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_sports"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_health"
-        android:layout_toEndOf="@+id/btn_health"
-        android:visibility="invisible"
-        android:text="sports" />
-
-    <Button
-        android:id="@+id/btn_science"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_general"
+        android:layout_toEndOf="@+id/btn_health"
+        android:text="sports"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/btn_science"
+        style="@style/FirebaseUI.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_health"
         android:layout_toEndOf="@+id/btn_sports"
-        android:visibility="invisible"
-        android:text="science" />
+        android:text="science"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_technology"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btn_general"
-        android:layout_below="@+id/btn_general"
-        android:visibility="invisible"
-        android:text="technology" />
+        android:layout_below="@+id/btn_health"
+        android:text="technology"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_business"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_general"
         android:layout_toEndOf="@+id/btn_technology"
-        android:visibility="invisible"
-        android:text="business" />
+        android:text="business"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_entertainment"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/btn_science"
         android:layout_below="@+id/btn_general"
-        android:visibility="invisible"
-        android:text="entertainment" />
+        android:text="entertainment"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_done"
+        style="@style/FirebaseUI.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="39dp"
         android:layout_toEndOf="@+id/btn_sports"
-        android:visibility="invisible"
-        android:text="Done" />
+        android:text="Done"
+        android:visibility="invisible" />
 </RelativeLayout>
