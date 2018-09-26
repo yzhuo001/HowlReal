@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //set on startup start view news item
+        Log.e(TAG, "onCreate start item 0");
+        navigationView.getMenu().getItem(0).setChecked(true);
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
     }
 
     @Override
@@ -94,16 +99,16 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Log.d(TAG, "onNavigationItemSelected");
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         Fragment fragment = null;
         Class fragmentClass = null;
         if (id == R.id.nav_news) {
-            // Handle the camera action
+            // view news fragment
             fragmentClass = NewsFragment.class;
         } else if (id == R.id.nav_gallery) {
 
