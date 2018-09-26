@@ -3,6 +3,7 @@ package com.wolf32.cz3002.howlreal;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -25,12 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
+import com.wolf32.cz3002.howlreal.fragments.SettingsFragment;
+
+import java.util.Set;
 
 import retrofit2.http.Url;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        NewsFragment.OnFragmentInteractionListener {
+        NewsFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
     private String name;
@@ -179,6 +184,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             //change layout
             //change preferences
+            fragmentClass = SettingsFragment.class;
 
         } else if (id == R.id.nav_logout) {
             //logout implementation

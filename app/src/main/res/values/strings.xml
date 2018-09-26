@@ -9,4 +9,7 @@
     <string name="facebook_application_id">394569264408602</string>
     <string name="facebook_login_protocol_scheme">fb394569264408602</string>
     <string name="choose_preferences_text">Choose your category preferences</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
