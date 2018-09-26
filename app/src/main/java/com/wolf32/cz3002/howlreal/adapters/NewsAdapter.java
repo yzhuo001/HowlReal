@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.wolf32.cz3002.howlreal.R;
 import com.wolf32.cz3002.howlreal.model.News;
 
@@ -28,7 +29,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
     private static final String TAG = "NewsAdapter";
     private Context mContext;
     private static List<News> newsList = new ArrayList<>();
-
 
 
     public NewsAdapter(@NonNull Context context, ArrayList<News> list) {
@@ -55,30 +55,9 @@ public class NewsAdapter extends ArrayAdapter<News> {
         URL url = null;
 
         Log.e(TAG,"currentNews.getImageUrl(): "+currentNews.getImageUrl());
-        if (currentNews.getImageUrl() != null){
-            try {
-                url = new URL(currentNews.getImageUrl());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            Bitmap bmp = null;
-            Bitmap resizedBitmap = null;
-            try {
-                InputStream inputStream = null;
-                if (url != null) {
-                    inputStream = url.openConnection().getInputStream();
-                }
-                if (inputStream != null){
-                    bmp = BitmapFactory.decodeStream(inputStream);
-                    resizedBitmap = Bitmap.createScaledBitmap(bmp, 240, 240, false);
-                    imageView.setImageBitmap(resizedBitmap);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+        if (currentNews.getImageUrl() != null) {
+            Picasso.get().load(currentNews.getImageUrl()).into(imageView);
         }
-
 
         TextView name = listItem.findViewById(R.id.article_snippet_title);
         name.setText(currentNews.getTitle());

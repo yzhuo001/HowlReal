@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "LoginActivity";
 
     private int RC_SIGN_IN = 123;
     private FirebaseFirestore db;
@@ -43,6 +44,15 @@ public class LoginActivity extends AppCompatActivity {
     boolean isTech = false;
     boolean isEntertain = false;
     private Intent drawerIntent;
+    private Button btn_general;
+    private Button btn_health;
+    private Button btn_sports;
+    private Button btn_science;
+    private Button btn_technology;
+    private Button btn_business;
+    private Button btn_entertainment;
+    private Button btn_done;
+    private TextView textView_choose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +131,10 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists()) {
                                 Log.d(TAG, "User exists in database, logged in success!");
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            } else {
+                                startActivity(drawerIntent);
+
+                            }
+                            else {
                                 Log.d(TAG, "User not in database, adding new user..");
 
                                 // create a new user to add to firestore cloud
@@ -147,6 +160,10 @@ public class LoginActivity extends AppCompatActivity {
                                                 Log.e(TAG, "Error adding document", e);
                                             }
                                         });
+
+                                // new user select preferences of news for reading
+                                initPreferencesButtons();
+                                setupButtonsListener();
                             }
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
@@ -164,83 +181,98 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
 
-            // select preferences of news for reading
-            Button btn_general = findViewById(R.id.btn_general);
-            Button btn_health = findViewById(R.id.btn_health);
-            Button btn_sports = findViewById(R.id.btn_sports);
-            Button btn_science = findViewById(R.id.btn_science);
-            Button btn_technology = findViewById(R.id.btn_technology);
-            Button btn_business = findViewById(R.id.btn_business);
-            Button btn_entertainment = findViewById(R.id.btn_entertainment);
-            Button btn_done = findViewById(R.id.btn_done);
 
-            btn_general.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isGeneral = !isGeneral;
-                }
-            });
-            btn_health.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isHealth = !isHealth;
-                }
-            });
-            btn_sports.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isSports = !isSports;
-                }
-            });
-            btn_science.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isScience = !isScience;
-                }
-            });
-            btn_technology.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isTech = !isTech;
-                }
-            });
-            btn_business.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isBusiness = !isBusiness;
-                }
-            });
-            btn_entertainment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isEntertain = !isEntertain;
-                }
-            });
-
-            btn_done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //save input to database
-                    final Map<String, Object> categories = new HashMap<>();
-                    categories.put("general", isGeneral);
-                    categories.put("health", isHealth);
-                    categories.put("sports", isSports);
-                    categories.put("science", isScience);
-                    categories.put("technology", isTech);
-                    categories.put("business", isBusiness);
-                    categories.put("entertainment", isEntertain);
-
-
-                    db.collection("users").document(model_user.getUid())
-                            .set(categories, SetOptions.merge());
-
-                    startActivity(drawerIntent);
-                }
-            });
         }
 
 
     }
 
+    public void initPreferencesButtons(){
+        btn_general = findViewById(R.id.btn_general);
+        btn_health = findViewById(R.id.btn_health);
+        btn_sports = findViewById(R.id.btn_sports);
+        btn_science = findViewById(R.id.btn_science);
+        btn_technology = findViewById(R.id.btn_technology);
+        btn_business = findViewById(R.id.btn_business);
+        btn_entertainment = findViewById(R.id.btn_entertainment);
+        btn_done = findViewById(R.id.btn_done);
+        textView_choose = findViewById(R.id.textView_choose);
+        btn_general.setVisibility(View.VISIBLE);
+        btn_health.setVisibility(View.VISIBLE);
+        btn_sports.setVisibility(View.VISIBLE);
+        btn_science.setVisibility(View.VISIBLE);
+        btn_technology.setVisibility(View.VISIBLE);
+        btn_business.setVisibility(View.VISIBLE);
+        btn_entertainment.setVisibility(View.VISIBLE);
+        btn_done.setVisibility(View.VISIBLE);
+        textView_choose.setVisibility(View.VISIBLE);
+
+    }
+
+    public void setupButtonsListener(){
+        btn_general.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isGeneral = !isGeneral;
+            }
+        });
+        btn_health.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isHealth = !isHealth;
+            }
+        });
+        btn_sports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSports = !isSports;
+            }
+        });
+        btn_science.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isScience = !isScience;
+            }
+        });
+        btn_technology.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isTech = !isTech;
+            }
+        });
+        btn_business.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isBusiness = !isBusiness;
+            }
+        });
+        btn_entertainment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEntertain = !isEntertain;
+            }
+        });
+
+        btn_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //save input to database
+                final Map<String, Object> categories = new HashMap<>();
+                categories.put("general", isGeneral);
+                categories.put("health", isHealth);
+                categories.put("sports", isSports);
+                categories.put("science", isScience);
+                categories.put("technology", isTech);
+                categories.put("business", isBusiness);
+                categories.put("entertainment", isEntertain);
+
+
+                db.collection("users").document(model_user.getUid())
+                        .set(categories, SetOptions.merge());
+
+                startActivity(drawerIntent);
+            }
+        });
+    }
 
 }

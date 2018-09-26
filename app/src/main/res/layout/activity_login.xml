@@ -3,12 +3,14 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView_choose"
         android:layout_width="wrap_content"
         android:layout_height="31dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="165dp"
         android:text="@string/choose_preferences_text"
+        android:visibility="invisible"
         android:textSize="20sp"/>
 
     <Button
@@ -19,6 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="14dp"
         android:layout_marginTop="212dp"
+        android:visibility="invisible"
         android:text="General" />
 
     <Button
@@ -27,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_general"
         android:layout_toEndOf="@+id/btn_general"
+        android:visibility="invisible"
         android:text="health" />
 
     <Button
@@ -35,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_health"
         android:layout_toEndOf="@+id/btn_health"
+        android:visibility="invisible"
         android:text="sports" />
 
     <Button
@@ -43,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_general"
         android:layout_toEndOf="@+id/btn_sports"
+        android:visibility="invisible"
         android:text="science" />
 
     <Button
@@ -51,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btn_general"
         android:layout_below="@+id/btn_general"
+        android:visibility="invisible"
         android:text="technology" />
 
     <Button
@@ -59,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_general"
         android:layout_toEndOf="@+id/btn_technology"
+        android:visibility="invisible"
         android:text="business" />
 
     <Button
@@ -67,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/btn_science"
         android:layout_below="@+id/btn_general"
+        android:visibility="invisible"
         android:text="entertainment" />
 
     <Button
@@ -76,5 +85,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="39dp"
         android:layout_toEndOf="@+id/btn_sports"
+        android:visibility="invisible"
         android:text="Done" />
 </RelativeLayout>
