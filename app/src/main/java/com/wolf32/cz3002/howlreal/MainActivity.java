@@ -22,13 +22,20 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
+
+import retrofit2.http.Url;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NewsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
+    private String name;
+    private String email;
+    private Uri profilePicUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +77,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(1).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
 
-        TextView name = findViewById(R.id.textView_nav_name);
-        TextView email = findViewById(R.id.textView_nav_email);
-        ImageView profile_pic = findViewById(R.id.imageView_profile_photo);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            name = user.getDisplayName();
+            email = user.getEmail();
+            profilePicUrl = user.getPhotoUrl();
+        }
 
 
 
@@ -93,6 +104,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // display user information on navigation drawer
+        TextView textViewName = findViewById(R.id.textView_nav_name);
+        TextView textViewEmail = findViewById(R.id.textView_nav_email);
+        ImageView imgViewProfilePic = findViewById(R.id.imageView_profile_photo);
+        textViewName.setText(name);
+        textViewEmail.setText(email);
+        Picasso.get().load(profilePicUrl).resize(128,128).into(imgViewProfilePic);
+
         return true;
     }
 
