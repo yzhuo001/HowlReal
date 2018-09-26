@@ -33,7 +33,7 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "NewsFragment";
-    private static String[] title = new String[20];
+    private static String[] title = new String[100];
     private ListView newsListView;
     private NewsAdapter mAdapter;
     private NewsFragment.OnFragmentInteractionListener mListener;
@@ -82,12 +82,13 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
         View mView = inflater.inflate(R.layout.fragment_news, container, false);
 
         newsListView = (ListView) mView.findViewById(R.id.fragment_news_listView);
-        //ArrayList<News> newsList = new ArrayList<>();
-        //newsList.add(new News("title1", "url1"));
-        //newsList.add(new News("title2", "url2"));
 
+        if (getArguments() != null) {
+            Log.e(TAG, "args: " + getArguments().getString("type"));
+        }
+        String category = getArguments().getString("type");
         FetchNewsData fnd = new FetchNewsData(this);
-        fnd.getData();
+        fnd.getData(category);
 
 
         return mView;

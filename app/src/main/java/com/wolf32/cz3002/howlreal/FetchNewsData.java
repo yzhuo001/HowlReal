@@ -28,12 +28,30 @@ public class FetchNewsData extends AsyncTask<Void,Void,Void> {
     }
 
 
-    public void getData(){
+    public void getData(String category){
         Log.e(TAG, "getData");
         try {
-//            List<String> imageURL = new ArrayList<String>();
-//            List<String> title = new ArrayList<String>();
-            URL url = new URL("http://newsapi.org/v2/top-headlines?country=sg&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+
+            URL url = null;
+
+            //load pageSize only works for <20 articles
+            if (category.equals("general")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("health")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=health&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("sports")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=sports&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("science")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=science&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("technology")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=technology&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("business")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=business&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            } else if (category.equals("entertainment")){
+                url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=entertainment&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
+            }
+
+
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -75,7 +93,7 @@ public class FetchNewsData extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        getData();
+        //Log.e(TAG,"doInBackground");
         return null;
     }
 

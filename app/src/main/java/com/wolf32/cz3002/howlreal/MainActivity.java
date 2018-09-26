@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private String name;
     private String email;
     private Uri profilePicUrl;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             StrictMode.setThreadPolicy(policy);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -76,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         Log.e(TAG, "onCreate start item 1");
         navigationView.getMenu().getItem(1).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Saved News");
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -139,24 +142,40 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
         Class fragmentClass = null;
+        Bundle args = new Bundle();
 
         if (id == R.id.nav_saved_news){
             // view saved news
+            toolbar.setTitle("Saved News");
         } else if (id == R.id.nav_general) {
             // view news fragment
+            toolbar.setTitle("General");
             fragmentClass = NewsFragment.class;
+            args.putString("type", "general");
         } else if (id == R.id.nav_health) {
-
+            toolbar.setTitle("Health");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "health");
         } else if (id == R.id.nav_sports) {
-
+            toolbar.setTitle("Sports");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "sports");
         } else if (id == R.id.nav_science) {
-
+            toolbar.setTitle("Science");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "science");
         } else if (id == R.id.nav_technology) {
-
+            toolbar.setTitle("Technology");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "technology");
         } else if (id == R.id.nav_business) {
-
+            toolbar.setTitle("Business");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "business");
         } else if (id == R.id.nav_entertainment) {
-
+            toolbar.setTitle("Entertainment");
+            fragmentClass = NewsFragment.class;
+            args.putString("type", "entertainment");
         } else if (id == R.id.nav_settings) {
             //change layout
             //change preferences
@@ -166,9 +185,11 @@ public class MainActivity extends AppCompatActivity
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            fragment.setArguments(args);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
 
