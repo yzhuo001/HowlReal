@@ -8,81 +8,118 @@
         android:layout_height="31dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="90dp"
         android:text="@string/choose_preferences_text"
-        android:visibility="invisible"
-        android:textSize="20sp"/>
-
-    <Button
-        android:id="@+id/btn_general"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="212dp"
-        android:text="General"
+        android:textSize="20sp"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_health"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <!--<TextView
+         android:id="@+id/tv_health"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentStart="true"
+         android:layout_alignParentTop="true"
+         android:layout_marginTop="193dp"
+         android:text="Health" />
+
+     <TextView
+         android:id="@+id/tv_science"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentStart="true"
+         android:layout_centerVertical="true"
+         android:text="Science" />
+
+     <TextView
+         android:id="@+id/tv_sports"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentStart="true"
+         android:text="Sports" />
+
+     <TextView
+         android:id="@+id/tv_tech"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentStart="true"
+         android:text="Technology" />
+
+     <TextView
+         android:id="@+id/tv_business"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Business" />
+
+     <TextView
+         android:id="@+id/tv_entertainment"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Entertainment" />-->
+
+    <Switch
+        android:id="@+id/switch_health"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_general"
-        android:layout_toEndOf="@+id/btn_general"
-        android:text="health"
+        android:layout_below="@+id/textView_choose"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Health"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_sports"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch_sports"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_general"
-        android:layout_toEndOf="@+id/btn_health"
-        android:text="sports"
+        android:layout_below="@+id/switch_health"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Sports"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_science"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch_science"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_health"
-        android:layout_toEndOf="@+id/btn_sports"
-        android:text="science"
+        android:layout_below="@+id/switch_sports"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Science"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_technology"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch_tech"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/btn_general"
-        android:layout_below="@+id/btn_health"
-        android:text="technology"
+        android:layout_below="@+id/switch_science"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Technology"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_business"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch_business"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_general"
-        android:layout_toEndOf="@+id/btn_technology"
-        android:text="business"
+        android:layout_below="@+id/switch_tech"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Business"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btn_entertainment"
-        style="@style/FirebaseUI.Button"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch_entertainment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/btn_science"
-        android:layout_below="@+id/btn_general"
-        android:text="entertainment"
+        android:layout_below="@+id/switch_business"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Entertainment"
         android:visibility="invisible" />
 
     <Button
@@ -91,8 +128,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="39dp"
-        android:layout_toEndOf="@+id/btn_sports"
-        android:text="Done"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="32dp"
+        android:text="Save"
+        android:textColor="@android:color/black"
         android:visibility="invisible" />
+
 </RelativeLayout>

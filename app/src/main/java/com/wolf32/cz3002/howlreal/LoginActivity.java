@@ -1,12 +1,15 @@
 package com.wolf32.cz3002.howlreal;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -44,13 +47,13 @@ public class LoginActivity extends AppCompatActivity {
     boolean isTech = false;
     boolean isEntertain = false;
     private Intent drawerIntent;
-    private Button btn_general;
-    private Button btn_health;
-    private Button btn_sports;
-    private Button btn_science;
-    private Button btn_technology;
-    private Button btn_business;
-    private Button btn_entertainment;
+    private Switch btn_general;
+    private Switch btn_health;
+    private Switch btn_sports;
+    private Switch btn_science;
+    private Switch btn_technology;
+    private Switch btn_business;
+    private Switch btn_entertainment;
     private Button btn_done;
     private TextView textView_choose;
 
@@ -70,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         // Create and launch sign-in intent
+        ///* //to disable login, uncomment.
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -78,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);
+        //*/
 
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
@@ -192,16 +197,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void initPreferencesButtons(){
-        btn_general = findViewById(R.id.btn_general);
-        btn_health = findViewById(R.id.btn_health);
-        btn_sports = findViewById(R.id.btn_sports);
-        btn_science = findViewById(R.id.btn_science);
-        btn_technology = findViewById(R.id.btn_technology);
-        btn_business = findViewById(R.id.btn_business);
-        btn_entertainment = findViewById(R.id.btn_entertainment);
+        btn_health = findViewById(R.id.switch_health);
+        btn_sports = findViewById(R.id.switch_sports);
+        btn_science = findViewById(R.id.switch_science);
+        btn_technology = findViewById(R.id.switch_tech);
+        btn_business = findViewById(R.id.switch_business);
+        btn_entertainment = findViewById(R.id.switch_entertainment);
         btn_done = findViewById(R.id.btn_done);
         textView_choose = findViewById(R.id.textView_choose);
-        btn_general.setVisibility(View.VISIBLE);
         btn_health.setVisibility(View.VISIBLE);
         btn_sports.setVisibility(View.VISIBLE);
         btn_science.setVisibility(View.VISIBLE);
@@ -214,46 +217,48 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setupButtonsListener(){
-        btn_general.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGeneral = !isGeneral;
+
+        btn_health.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isHealth = isChecked;
             }
         });
-        btn_health.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isHealth = !isHealth;
+
+        btn_sports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isHealth = isChecked;
             }
         });
-        btn_sports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isSports = !isSports;
+        btn_science.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isScience = isChecked;
             }
         });
-        btn_science.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isScience = !isScience;
+        btn_technology.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isTech = isChecked;
             }
         });
-        btn_technology.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isTech = !isTech;
+        btn_business.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isBusiness = isChecked;
             }
         });
-        btn_business.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isBusiness = !isBusiness;
-            }
-        });
-        btn_entertainment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isEntertain = !isEntertain;
+        btn_entertainment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                isEntertain = isChecked;
             }
         });
 
@@ -262,14 +267,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //save input to database
                 final Map<String, Object> categories = new HashMap<>();
-                categories.put("general", isGeneral);
                 categories.put("health", isHealth);
                 categories.put("sports", isSports);
                 categories.put("science", isScience);
                 categories.put("technology", isTech);
                 categories.put("business", isBusiness);
                 categories.put("entertainment", isEntertain);
-
 
                 db.collection("users").document(model_user.getUid())
                         .set(categories, SetOptions.merge());
