@@ -1,5 +1,6 @@
 package com.wolf32.cz3002.howlreal;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -60,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_done;
     private TextView textView_choose;
     private boolean fromSettings = false;
+    private ProgressDialog nDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "onActivityResult");
+
+        ProgressBar progressBar = findViewById(R.id.progress_loader);
+        progressBar.setVisibility(View.VISIBLE);
+        nDialog = new ProgressDialog(this);
+        nDialog.setMessage("Loading..");
+        nDialog.setTitle("Logging in..");
+        nDialog.setIndeterminate(false);
+        nDialog.setCancelable(true);
+        nDialog.show();
+
 
         if (requestCode == RC_SIGN_IN) {
             Log.e(TAG, "RC_SIGN_IN");
@@ -170,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                                         isTech,isBusiness,isEntertain);
                                 mUser.setPreferences(preferences);
                                 startActivity(drawerIntent);
+                                nDialog.dismiss();
 
                             }
                             else {
@@ -200,6 +215,8 @@ public class LoginActivity extends AppCompatActivity {
                                         });
 
                                 startActivity(preferencesIntent);
+                                nDialog.dismiss();
+
                             }
                             // save to shared preferences
                             Gson gson = new Gson();
