@@ -15,16 +15,6 @@
         android:paddingTop="8dp"
         android:text="Settings" />
 
-
-    <Button
-        android:id="@+id/btn_select_preferences"
-        style="@style/FirebaseUI.Button.AccountChooser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:text="Select Preferences"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-
     <Button
         android:id="@+id/btn_acc_info"
         style="@style/FirebaseUI.Button.AccountChooser"
@@ -35,12 +25,21 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
     <Button
+        android:id="@+id/btn_select_preferences"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Edit Category Preferences"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
         android:id="@+id/btn_layout_theme"
         style="@style/FirebaseUI.Button.AccountChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-        android:text="Layout Theme"
+        android:text="Change Layout"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
     <TextView

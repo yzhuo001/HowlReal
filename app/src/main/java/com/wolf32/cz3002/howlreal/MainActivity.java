@@ -1,5 +1,7 @@
 package com.wolf32.cz3002.howlreal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -24,9 +26,11 @@ import android.widget.TextView;
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
 import com.wolf32.cz3002.howlreal.fragments.SettingsFragment;
+import com.wolf32.cz3002.howlreal.model.UserPreferences;
 
 import java.util.Set;
 
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private String email;
     private Uri profilePicUrl;
     private Toolbar toolbar;
+    //after saving, to main activity, then preferences, all false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,9 @@ public class MainActivity extends AppCompatActivity
             email = user.getEmail();
             profilePicUrl = user.getPhotoUrl();
         }
+
+        //receive intent data after logging in
+        //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
 
 
 

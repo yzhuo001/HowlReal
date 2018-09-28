@@ -1,14 +1,24 @@
 package com.wolf32.cz3002.howlreal.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Switch;
 
+import com.google.gson.Gson;
+import com.wolf32.cz3002.howlreal.LoginActivity;
+import com.wolf32.cz3002.howlreal.PreferencesActivity;
 import com.wolf32.cz3002.howlreal.R;
+import com.wolf32.cz3002.howlreal.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,7 @@ public class SettingsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "SettingsFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,13 +70,26 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View mView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        Button btn_select_preference = mView.findViewById(R.id.btn_select_preferences);
+        btn_select_preference.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                Intent preferencesIntent = new Intent(getContext(), PreferencesActivity.class);
+                //preferencesIntent.putExtra("fromSettings", true);
+                startActivity(preferencesIntent);
+            }
+        });
+
+        return mView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

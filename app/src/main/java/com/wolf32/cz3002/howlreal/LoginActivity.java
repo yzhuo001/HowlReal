@@ -1,6 +1,8 @@
 package com.wolf32.cz3002.howlreal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,7 +27,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 import com.wolf32.cz3002.howlreal.model.User;
+import com.wolf32.cz3002.howlreal.model.UserPreferences;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,16 +42,15 @@ public class LoginActivity extends AppCompatActivity {
     private int RC_SIGN_IN = 123;
     private FirebaseFirestore db;
     private FirebaseUser user;
-    private User model_user;
-    boolean isGeneral = false;
+    private User mUser = null;
     boolean isHealth = false;
     boolean isSports = false;
     boolean isScience = false;
     boolean isBusiness = false;
     boolean isTech = false;
     boolean isEntertain = false;
+    private Intent preferencesIntent;
     private Intent drawerIntent;
-    private Switch btn_general;
     private Switch btn_health;
     private Switch btn_sports;
     private Switch btn_science;
@@ -56,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private Switch btn_entertainment;
     private Button btn_done;
     private TextView textView_choose;
+    private boolean fromSettings = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +76,21 @@ public class LoginActivity extends AppCompatActivity {
 
         );
 
+
+        //receive intent data after logging in
+        //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
+        //fromSettings = getIntent().getExtras().getBoolean("fromSettings");
+
         // Create and launch sign-in intent
-        ///* //to disable login, uncomment.
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setLogo(R.mipmap.ic_logo)
-                        .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
+        ///* // to disable login, uncomment.
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setLogo(R.mipmap.ic_logo)
+                            .setTheme(R.style.LoginTheme)
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
         //*/
 
         // Access a Cloud Firestore instance from your Activity
@@ -92,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         db.setFirestoreSettings(settings);
 
+        preferencesIntent = new Intent(this, PreferencesActivity.class);
         drawerIntent = new Intent(this, MainActivity.class);
 
     }
@@ -100,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "onActivityResult");
 
         if (requestCode == RC_SIGN_IN) {
             Log.e(TAG, "RC_SIGN_IN");
@@ -118,17 +129,25 @@ public class LoginActivity extends AppCompatActivity {
                 if (user.getPhotoUrl() != null)
                     photoUrl = user.getPhotoUrl().toString();
                 final boolean emailVerified = user.isEmailVerified();
-                model_user = new User(name, uid, email, photoUrl, emailVerified);
+                mUser = new User(name, uid, email, photoUrl, emailVerified);
 
                 // The user's ID, unique to the Firebase project. Do NOT use this value to
                 // authenticate with your backend server, if you have one. Use
                 // FirebaseUser.getIdToken() instead.
-//                Log.e(TAG, "name: " + name);
-//                Log.e(TAG, "email: " + email);
-//                Log.e(TAG, "photoUrl: " + photoUrl);
-//                Log.e(TAG, "uid: " + uid);
-//                Log.e(TAG, "emailVerified: " + emailVerified);
+                // Log.e(TAG, "name: " + name);
+                // Log.e(TAG, "email: " + email);
+                // Log.e(TAG, "photoUrl: " + photoUrl);
+                // Log.e(TAG, "uid: " + uid);
+                // Log.e(TAG, "emailVerified: " + emailVerified);
 
+                /*
+                health
+                sports
+                science
+                business
+                technology
+                entertainment
+                */
 
                 DocumentReference docRef = db.collection("users").document(uid);
                 final Map<String, Object> db_user = new HashMap<>();
@@ -140,6 +159,16 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists()) {
                                 Log.d(TAG, "User exists in database, logged in success!");
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                Map<String, Object> data = document.getData();
+                                boolean isHealth = (boolean) data.get("health");
+                                boolean isSports = (boolean) data.get("sports");
+                                boolean isScience = (boolean) data.get("science");
+                                boolean isBusiness = (boolean) data.get("business");
+                                boolean isTech = (boolean) data.get("technology");
+                                boolean isEntertain = (boolean) data.get("entertainment");
+                                UserPreferences preferences = new UserPreferences(isHealth,isSports,isScience,
+                                                                                        isTech,isBusiness,isEntertain);
+                                mUser.setPreferences(preferences);
                                 startActivity(drawerIntent);
 
                             }
@@ -147,11 +176,11 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d(TAG, "User not in database, adding new user..");
 
                                 // create a new user to add to firestore cloud
-                                db_user.put("name", model_user.getName());
-                                db_user.put("email", model_user.getEmail());
-                                db_user.put("photoUrl", model_user.getUri());
-                                db_user.put("uid", model_user.getUid());
-                                db_user.put("emailVerified", model_user.isEmailVerified());
+                                db_user.put("name", mUser.getName());
+                                db_user.put("email", mUser.getEmail());
+                                db_user.put("photoUrl", mUser.getUri());
+                                db_user.put("uid", mUser.getUid());
+                                db_user.put("emailVerified", mUser.isEmailVerified());
 
                                 // add a new document with a generated ID
                                 db.collection("users").document(uid)
@@ -170,10 +199,14 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                // new user select preferences of news for reading
-                                initPreferencesButtons();
-                                setupButtonsListener();
+                                startActivity(preferencesIntent);
                             }
+                            // save to shared preferences
+                            Gson gson = new Gson();
+                            String json = gson.toJson(mUser);
+                            User.setDefaults(mUser.getUid(), json, getApplicationContext());
+                            mUser.printUserInfo(TAG);
+
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
 
@@ -196,90 +229,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void initPreferencesButtons(){
-        btn_health = findViewById(R.id.switch_health);
-        btn_sports = findViewById(R.id.switch_sports);
-        btn_science = findViewById(R.id.switch_science);
-        btn_technology = findViewById(R.id.switch_tech);
-        btn_business = findViewById(R.id.switch_business);
-        btn_entertainment = findViewById(R.id.switch_entertainment);
-        btn_done = findViewById(R.id.btn_done);
-        textView_choose = findViewById(R.id.textView_choose);
-        btn_health.setVisibility(View.VISIBLE);
-        btn_sports.setVisibility(View.VISIBLE);
-        btn_science.setVisibility(View.VISIBLE);
-        btn_technology.setVisibility(View.VISIBLE);
-        btn_business.setVisibility(View.VISIBLE);
-        btn_entertainment.setVisibility(View.VISIBLE);
-        btn_done.setVisibility(View.VISIBLE);
-        textView_choose.setVisibility(View.VISIBLE);
 
-    }
 
-    public void setupButtonsListener(){
-
-        btn_health.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isHealth = isChecked;
-            }
-        });
-
-        btn_sports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isHealth = isChecked;
-            }
-        });
-        btn_science.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isScience = isChecked;
-            }
-        });
-        btn_technology.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isTech = isChecked;
-            }
-        });
-        btn_business.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isBusiness = isChecked;
-            }
-        });
-        btn_entertainment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                isEntertain = isChecked;
-            }
-        });
-
-        btn_done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //save input to database
-                final Map<String, Object> categories = new HashMap<>();
-                categories.put("health", isHealth);
-                categories.put("sports", isSports);
-                categories.put("science", isScience);
-                categories.put("technology", isTech);
-                categories.put("business", isBusiness);
-                categories.put("entertainment", isEntertain);
-
-                db.collection("users").document(model_user.getUid())
-                        .set(categories, SetOptions.merge());
-
-                startActivity(drawerIntent);
-            }
-        });
-    }
 
 }

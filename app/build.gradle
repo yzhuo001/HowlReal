@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.36.0'
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
 //for firebase
 apply plugin: 'com.google.gms.google-services'
