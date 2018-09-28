@@ -45,23 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private User mUser = null;
-    boolean isHealth = false;
-    boolean isSports = false;
-    boolean isScience = false;
-    boolean isBusiness = false;
-    boolean isTech = false;
-    boolean isEntertain = false;
     private Intent preferencesIntent;
     private Intent drawerIntent;
-    private Switch btn_health;
-    private Switch btn_sports;
-    private Switch btn_science;
-    private Switch btn_technology;
-    private Switch btn_business;
-    private Switch btn_entertainment;
-    private Button btn_done;
-    private TextView textView_choose;
-    private boolean fromSettings = false;
     private ProgressDialog nDialog;
 
 
@@ -119,8 +104,8 @@ public class LoginActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progress_loader);
         progressBar.setVisibility(View.VISIBLE);
         nDialog = new ProgressDialog(this);
-        nDialog.setMessage("Loading..");
-        nDialog.setTitle("Logging in..");
+        nDialog.setMessage("Loading...");
+        nDialog.setTitle("Logging in...");
         nDialog.setIndeterminate(false);
         nDialog.setCancelable(true);
         nDialog.show();

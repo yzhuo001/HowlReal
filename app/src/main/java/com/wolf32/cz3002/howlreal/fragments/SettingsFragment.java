@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import com.google.gson.Gson;
+import com.wolf32.cz3002.howlreal.AccountInfoActivity;
 import com.wolf32.cz3002.howlreal.LoginActivity;
 import com.wolf32.cz3002.howlreal.PreferencesActivity;
 import com.wolf32.cz3002.howlreal.R;
@@ -88,6 +89,16 @@ public class SettingsFragment extends Fragment {
                 startActivity(preferencesIntent);
             }
         });
+
+        Button btn_acc_info = mView.findViewById(R.id.btn_acc_info);
+        btn_acc_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent accountInfoIntent = new Intent(getContext(), AccountInfoActivity.class);
+                startActivity(accountInfoIntent);
+            }
+        });
+
 
         return mView;
     }
