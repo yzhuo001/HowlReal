@@ -138,15 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Log.e(TAG, "photoUrl: " + photoUrl);
                 // Log.e(TAG, "uid: " + uid);
                 // Log.e(TAG, "emailVerified: " + emailVerified);
-
-                /*
-                health
-                sports
-                science
-                business
-                technology
-                entertainment
-                */
+                
 
                 DocumentReference docRef = db.collection("users").document(uid);
                 final Map<String, Object> db_user = new HashMap<>();
@@ -170,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                 mUser.setPreferences(preferences);
                                 startActivity(drawerIntent);
                                 nDialog.dismiss();
+                                finish();
 
                             }
                             else {
@@ -201,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 startActivity(preferencesIntent);
                                 nDialog.dismiss();
+                                finish();
 
                             }
                             // save to shared preferences

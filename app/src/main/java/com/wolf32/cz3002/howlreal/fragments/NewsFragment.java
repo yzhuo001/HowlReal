@@ -1,6 +1,7 @@
 package com.wolf32.cz3002.howlreal.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.wolf32.cz3002.howlreal.FetchNewsData;
 import com.wolf32.cz3002.howlreal.R;
+import com.wolf32.cz3002.howlreal.ReadNewsActivity;
 import com.wolf32.cz3002.howlreal.adapters.NewsAdapter;
 import com.wolf32.cz3002.howlreal.model.News;
+import com.wolf32.cz3002.howlreal.model.User;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,6 +47,10 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private User mUser;
+    private String name;
+    private String email;
+    private Uri profilePicUrl;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -78,6 +88,23 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            name = user.getDisplayName();
+            email = user.getEmail();
+            profilePicUrl = user.getPhotoUrl();
+            String uid = user.getUid();
+            Uri mUri = user.getPhotoUrl();
+            String uri = "";
+            if (mUri != null) {
+                uri = mUri.toString();
+            }
+            boolean emailVerified = user.isEmailVerified();
+            mUser = new com.wolf32.cz3002.howlreal.model.User(name, uid, email, uri, emailVerified);
+        }
+
+
         // Inflate the layout for this fragment
         View mView = inflater.inflate(R.layout.fragment_news, container, false);
 
@@ -88,15 +115,23 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
         }
         String category = getArguments().getString("type");
         FetchNewsData fnd = new FetchNewsData(this);
-        fnd.getData(category);
+
+        int userType = -1;
+        if (mUser.isAdmin())
+            userType=1;
+        else
+            userType=0;
+        fnd.getData(category, userType);
 
 
         return mView;
     }
 
 
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+        Log.e(TAG, "pressed.");
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -120,11 +155,29 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     }
 
     @Override
-    public void onSuccess(ArrayList<News> newsList) {
-        Log.e(TAG, "newsList,size onsuccess: "+newsList.size());
+    public void onSuccess(final ArrayList<News> newsList) {
+        Log.e(TAG, "newsList,size onsuccess: " + newsList.size());
 
         mAdapter = new NewsAdapter(Objects.requireNonNull(getContext()), newsList);
         newsListView.setAdapter(mAdapter);
+
+
+        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                News currentNews = newsList.get(position);
+
+                Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("news", currentNews);
+                newsArticleIntent.putExtras(bundle);
+
+                newsArticleIntent.putExtra("position",position);
+                startActivity(newsArticleIntent);
+
+            }
+        });
     }
 
     @Override

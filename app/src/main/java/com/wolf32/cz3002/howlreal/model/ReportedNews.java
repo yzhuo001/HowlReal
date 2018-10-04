@@ -12,101 +12,22 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class News implements Serializable {
-    private static final String TAG = "News";
-    private String title;
-    private String imageUrl;
-    private String sourceName;
-    private String author;
-    private String description;
-    private String content;
-    private String publishedAt;
-    private String newsUrl;
+public class ReportedNews implements Serializable {
+    private static final String TAG = "ReportedNews";
     private String newsId;
+    private String userId;
 
-    public News(){
-
+    public ReportedNews(String newsId, String userId){
+        this.newsId=newsId;
+        this.userId=userId;
     }
 
-    public void setImageUrl(String imageUrl){
-        this.imageUrl = imageUrl;
-    }
-
-    public void setTitle(String title){
-        this.title = title;
-    }
-
-    public void setSourceName(String sourceName){
-        this.sourceName = sourceName;
-    }
-
-    public void setAuthor(String author){
-        this.author = author;
-    }
-
-    public void setDescription(String description){
-        this.description = description;
-    }
-
-    public void setContent(String content){
-        this.content = content;
-    }
-
-    public void setPublishedAt(String publishedAt){
-        this.publishedAt = publishedAt;
-    }
-
-    public void setUrl(String url){
-        this.newsUrl = url;
-    }
-
-    public void setNewsId(String url){
-
-    }
-
-    public String getAuthor(){
-        return author;
-    }
-
-    public String getDescription(){
-        return description;
-    }
-
-    public String getPublishedAt(){
-        return publishedAt;
-    }
-
-    public String getContent(){
-        return content;
-    }
-
-    public String getUrl(){
-        return newsUrl;
-    }
-
-    public String getSourceName(){
-        return sourceName;
-    }
-
-    public String getTitle(){
-        return title;
-    }
-
-    public String getImageUrl(){
-        return imageUrl;
-    }
-
-    public String getNewsId(){
-        return newsId;
-    }
-
-    public void addToDatabase(final String url){
+    public void addToDatabase(){
         // todo: check if exists in database using url.
         // if exists, dont add, if doesnt exists add.
 
@@ -118,16 +39,8 @@ public class News implements Serializable {
                 .build();
         db.setFirestoreSettings(settings);
 
-        if (url.contains("https")){
-            newsId = url.substring(8,url.length());
-        }
-        else if (url.contains("http")){
-            newsId = url.substring(7,url.length());
-        }
-        newsId = newsId.replace("/","");
-        final String finalNewsId = newsId;
 
-        DocumentReference docRef = db.collection("news").document(newsId);
+        DocumentReference docRef = db.collection("reportedNews").document(newsId);
         final Map<String, Object> db_news = new HashMap<>();
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -155,17 +68,11 @@ public class News implements Serializable {
                         Log.d(TAG, "User not in database, adding new user..");
 
                         // create a new user to add to firestore cloud
-                        db_news.put("title", title);
-                        db_news.put("imageUrl", imageUrl);
-                        db_news.put("sourceName", sourceName);
-                        db_news.put("author", author);
-                        db_news.put("description", description);
-                        db_news.put("content", content);
-                        db_news.put("publishedAt", publishedAt);
-                        db_news.put("url", newsUrl);
+                        db_news.put("newsId", newsId);
+                        db_news.put("userId", userId);
 
                         // add a new document with a generated ID
-                        db.collection("news").document(finalNewsId)
+                        db.collection("reportedNews").document(newsId)
                                 .set(db_news)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -180,8 +87,6 @@ public class News implements Serializable {
                                         Log.e(TAG, "Error adding news", e);
                                     }
                                 });
-
-
 
                     }
 

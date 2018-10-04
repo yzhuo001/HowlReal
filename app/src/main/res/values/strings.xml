@@ -12,4 +12,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_read_news">ReadNewsActivity</string>
+    <string name="title_activity_read_news1">ReadNews1</string>
 </resources>

@@ -7,13 +7,14 @@ import android.util.Log;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
     private String name;
     private String uid;
     private String email;
     private String uri;
     private boolean emailVerified;
     private UserPreferences preferences;
+    private int type; // 0- admin, 1-user
 
     public User() {
     //empty constructor
@@ -27,6 +28,9 @@ public class User implements Serializable{
         this.emailVerified = emailVerified;
     }
 
+    public int getType(){
+        return type;
+    }
     public String getName(){
         return name;
     }
@@ -49,6 +53,10 @@ public class User implements Serializable{
 
     public UserPreferences getPreferences() {
         return preferences;
+    }
+
+    public void setType(int type){
+        this.type = type;
     }
 
     public void setPreferences(UserPreferences preferences) {
@@ -90,5 +98,10 @@ public class User implements Serializable{
             }
 
 
+    }
+
+    public boolean isAdmin(){
+        String adminEmail = "admin@howlreal.com";
+        return email.equals(adminEmail);
     }
 }
