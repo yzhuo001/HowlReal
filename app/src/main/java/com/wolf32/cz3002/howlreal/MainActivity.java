@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+import com.wolf32.cz3002.howlreal.admin.ReportedNewsFragment;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
 import com.wolf32.cz3002.howlreal.fragments.SettingsFragment;
 import com.wolf32.cz3002.howlreal.model.Admin;
@@ -35,7 +36,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NewsFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener,
+        ReportedNewsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private String name;
@@ -228,7 +230,7 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_saved_news) { // change this to smth else
                 // view saved news
                 toolbar.setTitle("Reported News");
-                fragmentClass = NewsFragment.class;
+                fragmentClass = ReportedNewsFragment.class;
                 args.putString("type", "reportedNews");
 
             }

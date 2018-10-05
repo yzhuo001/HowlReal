@@ -1,4 +1,4 @@
-package com.wolf32.cz3002.howlreal.adapters;
+package com.wolf32.cz3002.howlreal.admin;
 
 
 import android.content.Context;
@@ -19,13 +19,13 @@ import com.wolf32.cz3002.howlreal.model.News;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsAdapter extends ArrayAdapter<News> {
+public class ReportedNewsAdapter extends ArrayAdapter<News> {
     private static final String TAG = "ReportedNewsAdapter";
     private Context mContext;
     private static List<News> newsList = new ArrayList<>();
 
 
-    public NewsAdapter(@NonNull Context context, ArrayList<News> list) {
+    public ReportedNewsAdapter(@NonNull Context context, ArrayList<News> list) {
         super(context, 0 , list);
         mContext = context;
         newsList = list;
