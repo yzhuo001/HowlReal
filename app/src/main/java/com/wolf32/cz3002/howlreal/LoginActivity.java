@@ -246,4 +246,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    //for auto login after opening app
+    public void saveUserLocally(User mUser){
+        // store to shared preferences
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        User.setDefaults(mUser.getUid(), json, this);
+        mUser.printUserInfo(TAG);
+    }
+
 }

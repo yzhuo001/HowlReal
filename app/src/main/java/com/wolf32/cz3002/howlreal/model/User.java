@@ -101,7 +101,13 @@ public class User implements Serializable {
     }
 
     public boolean isAdmin(){
-        String adminEmail = "admin@howlreal.com";
-        return email.equals(adminEmail);
+        String adminEmails[] = new String[]{"admin@howlreal.com", "a@g.com"};
+        for (String adminEmail : adminEmails) {
+            if (email.equals(adminEmail)) {
+                return email.equals(adminEmail);
+            }
+        }
+
+        return false;
     }
 }

@@ -89,6 +89,7 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.e(TAG, "onCreateView");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             name = user.getDisplayName();
@@ -121,6 +122,7 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
             userType=1;
         else
             userType=0;
+
         fnd.getData(category, userType);
 
 
@@ -182,6 +184,7 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
 
     @Override
     public void onFailure() {
+        Log.e(TAG, "onFailure");
 
     }
 

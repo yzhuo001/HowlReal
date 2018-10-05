@@ -108,6 +108,10 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
+            // hide other menu items
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_entertainment).setVisible(false);
+
         } else {
             Log.e(TAG, "onCreate start item 1");
             navigationView.getMenu().getItem(1).setChecked(true);

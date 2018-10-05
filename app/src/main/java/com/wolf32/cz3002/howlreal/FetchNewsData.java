@@ -7,6 +7,8 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
@@ -33,7 +35,7 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
     private RetrieveListener retrieveListener;
     private ArrayList<News> newsList = new ArrayList<>();
 
-    public ArrayList<News> getNewsList(){
+    public ArrayList<News> getNewsList() {
         return newsList;
     }
 
@@ -44,23 +46,29 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
 
     public void getData(String category, int userType) {
         Log.e(TAG, "getData");
-        if (userType == 1){ // admin
+        if (userType == 1) { // admin
             if (category.equals("reportedNews")) {
-                Log.e(TAG,"reported news");
+                Log.e(TAG, "reported news");
                 getReportedNews();
+
+                Log.e(TAG," after getReportedNews, newsList.size(): " + newsList.size());
+
+                if (newsList.size() != 0) {
+                    Log.e(TAG, "retrieveListener.onSuccess");
+                    retrieveListener.onSuccess(newsList);
+                }
             }
-        }
-        else if (userType == 0){ // user
+        } else if (userType == 0) { // user
             try {
 
                 URL url = null;
 
                 //load pageSize only works for <20 articles
                 if (category.equals("general")) {
-                    Log.e(TAG,"general");
+                    Log.e(TAG, "general");
                     url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
                 } else if (category.equals("health")) {
-                    Log.e(TAG,"health");
+                    Log.e(TAG, "health");
                     url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=health&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
                 } else if (category.equals("sports")) {
                     url = new URL("http://newsapi.org/v2/top-headlines?country=sg&pageSize=20&category=sports&apiKey=812d6b6b470a4b17a228bdf0361f0d46");
@@ -112,7 +120,7 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                     news.setTitle(mTitle);
                     news.setPublishedAt(mPublishedAt);
                     news.setUrl(mUrl);
-                    news.setNewsId(mUrl.replace("/",""));
+                    news.setNewsId(mUrl.replace("/", ""));
                     newsList.add(news);
 
                     news.addToDatabase(mUrl);
@@ -142,11 +150,13 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
 
     public interface RetrieveListener {
         void onSuccess(ArrayList<News> newsList);
+
         void onFailure();
     }
 
 
-    public void getReportedNews(){
+    public void getReportedNews() {
+        Log.e(TAG, "getReportedNews");
 
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
@@ -168,9 +178,56 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                 String newsId = document.getString("newsId");
                                 String userId = document.getString("userId");
 
+
+                                DocumentReference newsRef = db.collection("news").document(newsId);
+                                newsRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                String mSourceName = document.getString("sourceName");
+                                                String mAuthor = document.getString("author");
+                                                String mContent = document.getString("content");
+                                                String mUrlToImage = document.getString("imageUrl");
+                                                String mDescription = document.getString("description");
+                                                String mTitle = document.getString("title");
+                                                String mPublishedAt = document.getString("publishedAt");
+                                                String mUrl = document.getString("url");
+
+                                                News news = new News();
+                                                news.setSourceName(mSourceName);
+                                                news.setAuthor(mAuthor);
+                                                news.setContent(mContent);
+                                                news.setImageUrl(mUrlToImage);
+                                                news.setDescription(mDescription);
+                                                news.setTitle(mTitle);
+                                                news.setPublishedAt(mPublishedAt);
+                                                news.setUrl(mUrl);
+                                                assert mUrl != null;
+                                                news.setNewsId(mUrl.replace("/", ""));
+                                                Log.e(TAG, news.getUrl());
+                                                newsList.add(news);
+                                                Log.e(TAG, "added news");
+                                                if (newsList.size() != 0) {
+                                                    Log.e(TAG, "retrieveListener.onSuccess");
+                                                    retrieveListener.onSuccess(newsList);
+                                                }
+
+                                            } else {
+                                                Log.d(TAG, "No such document");
+                                            }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
+                                        }
+                                    }
+                                });
+
+
                                 //todo: resolve bug for admin retrieve reported news
 
-                                // Create a reference to the news collection
+                                /*// Create a reference to the news collection
                                 CollectionReference newsRef = db.collection("news");
                                 // Create a query against the collection.
                                 Query query = newsRef.whereEqualTo("newsId", newsId);
@@ -179,6 +236,7 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
+                                                    Log.e(TAG, "oncomplete");
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                                         String mSourceName = document.getString("sourceName");
@@ -199,16 +257,28 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                                         news.setTitle(mTitle);
                                                         news.setPublishedAt(mPublishedAt);
                                                         news.setUrl(mUrl);
-                                                        news.setNewsId(mUrl.replace("/",""));
+                                                        assert mUrl != null;
+                                                        news.setNewsId(mUrl.replace("/", ""));
+                                                        Log.e(TAG, news.getUrl());
                                                         newsList.add(news);
+                                                        Log.e(TAG, "added news");
+
                                                     }
+
+
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
-                                                }
-                                            }
-                                        });
+                                                    retrieveListener.onFailure();
 
-                                // Create a reference to the user collection
+                                                }
+
+                                            }
+
+                                        });*/
+
+                                Log.e(TAG, "after onComplete");
+
+                                /*// Create a reference to the user collection
                                 CollectionReference userRef = db.collection("user");
                                 // Create a query against the collection.
                                 Query userQuery = newsRef.whereEqualTo("userId", userId);
@@ -226,14 +296,17 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                                 }
                                             }
-                                        });
+                                        });*/
 
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
                     }
                 });
+
+        Log.e(TAG, "getReportedNews ended");
 
 
     }
