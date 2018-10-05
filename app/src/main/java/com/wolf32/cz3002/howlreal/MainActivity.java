@@ -35,7 +35,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NewsFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener{
+        SettingsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private String name;
@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity
 
         //give permission to perform a networking operation in the main thread
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -77,11 +76,10 @@ public class MainActivity extends AppCompatActivity
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mUser.isAdmin()){
+        if (mUser.isAdmin()) {
             toolbar.setTitle("Reported News");
 
-        }
-        else{
+        } else {
             toolbar.setTitle("General");
         }
         setSupportActionBar(toolbar);
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle (
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -110,8 +108,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-        }
-        else {
+        } else {
             Log.e(TAG, "onCreate start item 1");
             navigationView.getMenu().getItem(1).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(1));
@@ -120,8 +117,6 @@ public class MainActivity extends AppCompatActivity
 
         //receive intent data after logging in
         //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
-
-
 
 
     }
@@ -149,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         ImageView imgViewProfilePic = findViewById(R.id.imageView_profile_photo);
         textViewName.setText(name);
         textViewEmail.setText(email);
-        Picasso.get().load(profilePicUrl).resize(128,128).into(imgViewProfilePic);
+        Picasso.get().load(profilePicUrl).resize(128, 128).into(imgViewProfilePic);
 
         return true;
     }
@@ -179,61 +174,60 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
         Bundle args = new Bundle();
 
-            if (!mUser.isAdmin()){
-                Log.e(TAG, "user");
-                if (id == R.id.nav_saved_news){
-                    // view saved news
-                    toolbar.setTitle("Saved News");
-                } else if (id == R.id.nav_general) {
-                    // view news fragment
-                    toolbar.setTitle("General");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "general");
-                } else if (id == R.id.nav_health) {
-                    toolbar.setTitle("Health");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "health");
-                } else if (id == R.id.nav_sports) {
-                    toolbar.setTitle("Sports");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "sports");
-                } else if (id == R.id.nav_science) {
-                    toolbar.setTitle("Science");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "science");
-                } else if (id == R.id.nav_technology) {
-                    toolbar.setTitle("Technology");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "technology");
-                } else if (id == R.id.nav_business) {
-                    toolbar.setTitle("Business");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "business");
-                } else if (id == R.id.nav_entertainment) {
-                    toolbar.setTitle("Entertainment");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "entertainment");
-                } else if (id == R.id.nav_settings) {
-                    //change layout
-                    //change preferences
-                    fragmentClass = SettingsFragment.class;
+        if (!mUser.isAdmin()) {
+            Log.e(TAG, "user");
+            if (id == R.id.nav_saved_news) {
+                // view saved news
+                toolbar.setTitle("Saved News");
+            } else if (id == R.id.nav_general) {
+                // view news fragment
+                toolbar.setTitle("General");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "general");
+            } else if (id == R.id.nav_health) {
+                toolbar.setTitle("Health");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "health");
+            } else if (id == R.id.nav_sports) {
+                toolbar.setTitle("Sports");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "sports");
+            } else if (id == R.id.nav_science) {
+                toolbar.setTitle("Science");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "science");
+            } else if (id == R.id.nav_technology) {
+                toolbar.setTitle("Technology");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "technology");
+            } else if (id == R.id.nav_business) {
+                toolbar.setTitle("Business");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "business");
+            } else if (id == R.id.nav_entertainment) {
+                toolbar.setTitle("Entertainment");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "entertainment");
+            } else if (id == R.id.nav_settings) {
+                //change layout
+                //change preferences
+                fragmentClass = SettingsFragment.class;
 
-                } else if (id == R.id.nav_logout) {
-                    //logout implementation
-                    logout(this);
+            } else if (id == R.id.nav_logout) {
+                //logout implementation
+                logout(this);
 
-                }
             }
-            else { //is admin account
-                Log.e(TAG, "admin");
+        } else { //is admin account
+            Log.e(TAG, "admin");
 
-                if (id == R.id.nav_saved_news){ //change this to smth else
-                    // view saved news
-                    toolbar.setTitle("Reported News");
-                    fragmentClass = NewsFragment.class;
-                    args.putString("type", "reportedNews");
+            if (id == R.id.nav_saved_news) { // change this to smth else
+                // view saved news
+                toolbar.setTitle("Reported News");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "reportedNews");
 
-                }
+            }
             /*else if (id == R.id.nav_general) {
                 // view news fragment
                 toolbar.setTitle("General");
@@ -265,29 +259,27 @@ public class MainActivity extends AppCompatActivity
                 args.putString("type", "entertainment");
 
             } */
-                else if (id == R.id.nav_settings) {
-                    //change layout
-                    //change preferences
-                    fragmentClass = SettingsFragment.class;
+            else if (id == R.id.nav_settings) {
+                //change layout
+                //change preferences
+                fragmentClass = SettingsFragment.class;
 
-                } else if (id == R.id.nav_logout) {
-                    //logout implementation
-                    logout(this);
-                }
+            } else if (id == R.id.nav_logout) {
+                //logout implementation
+                logout(this);
             }
+        }
 
 
-            try {
-                fragment = (Fragment) Objects.requireNonNull(fragmentClass).newInstance();
-                fragment.setArguments(args);
+        try {
+            fragment = (Fragment) Objects.requireNonNull(fragmentClass).newInstance();
+            fragment.setArguments(args);
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -300,15 +292,15 @@ public class MainActivity extends AppCompatActivity
         Log.e(TAG, "uri: " + uri);
     }
 
-    public void logout(final Context cxt){
-                AuthUI.getInstance()
-                        .signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                // user is now signed out
-                                startActivity(new Intent(cxt, LoginActivity.class));
-                                finish();
-                            }
-                        });
+    public void logout(final Context cxt) {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // user is now signed out
+                        startActivity(new Intent(cxt, LoginActivity.class));
+                        finish();
+                    }
+                });
     }
 }

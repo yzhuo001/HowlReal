@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent preferencesIntent;
     private Intent drawerIntent;
     private ProgressDialog nDialog;
+    private boolean isBackPress = false;
 
 
     @Override
@@ -212,7 +213,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
             } else {
-                Log.e(TAG, "Sign in failed! " + response.getError());
+                if (response == null){
+                    Log.e(TAG, "response == null");
+                    // pressed back button, exit app
+                    finish();
+                    System.exit(0);
+                }
+                else{
+                    Log.e(TAG, "Sign in failed! " + response.getError());
+
+                }
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
@@ -226,6 +236,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.e(TAG, "onBackPressed");
+
+        finish();
+        System.exit(0);
 
 
+    }
 }
