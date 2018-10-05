@@ -170,13 +170,19 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
 
                 News currentNews = newsList.get(position);
 
-                Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("news", currentNews);
-                newsArticleIntent.putExtras(bundle);
+                if (mUser.isAdmin()){
+                    Log.e(TAG, "admin clicks newsListView");
+                }
+                else{
+                    Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("news", currentNews);
+                    newsArticleIntent.putExtras(bundle);
 
-                newsArticleIntent.putExtra("position",position);
-                startActivity(newsArticleIntent);
+                    newsArticleIntent.putExtra("position",position);
+                    startActivity(newsArticleIntent);
+                }
+
 
             }
         });

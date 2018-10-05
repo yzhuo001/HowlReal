@@ -178,7 +178,6 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                 String newsId = document.getString("newsId");
                                 String userId = document.getString("userId");
 
-
                                 DocumentReference newsRef = db.collection("news").document(newsId);
                                 newsRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -217,64 +216,16 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
 
                                             } else {
                                                 Log.d(TAG, "No such document");
+                                                retrieveListener.onFailure();
+
                                             }
                                         } else {
                                             Log.d(TAG, "get failed with ", task.getException());
+                                            retrieveListener.onFailure();
+
                                         }
                                     }
                                 });
-
-
-                                //todo: resolve bug for admin retrieve reported news
-
-                                /*// Create a reference to the news collection
-                                CollectionReference newsRef = db.collection("news");
-                                // Create a query against the collection.
-                                Query query = newsRef.whereEqualTo("newsId", newsId);
-                                query.get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.e(TAG, "oncomplete");
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        Log.d(TAG, document.getId() + " => " + document.getData());
-                                                        String mSourceName = document.getString("sourceName");
-                                                        String mAuthor = document.getString("author");
-                                                        String mContent = document.getString("content");
-                                                        String mUrlToImage = document.getString("imageUrl");
-                                                        String mDescription = document.getString("description");
-                                                        String mTitle = document.getString("title");
-                                                        String mPublishedAt = document.getString("publishedAt");
-                                                        String mUrl = document.getString("url");
-
-                                                        News news = new News();
-                                                        news.setSourceName(mSourceName);
-                                                        news.setAuthor(mAuthor);
-                                                        news.setContent(mContent);
-                                                        news.setImageUrl(mUrlToImage);
-                                                        news.setDescription(mDescription);
-                                                        news.setTitle(mTitle);
-                                                        news.setPublishedAt(mPublishedAt);
-                                                        news.setUrl(mUrl);
-                                                        assert mUrl != null;
-                                                        news.setNewsId(mUrl.replace("/", ""));
-                                                        Log.e(TAG, news.getUrl());
-                                                        newsList.add(news);
-                                                        Log.e(TAG, "added news");
-
-                                                    }
-
-
-                                                } else {
-                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                    retrieveListener.onFailure();
-
-                                                }
-
-                                            }
-
-                                        });*/
 
                                 Log.e(TAG, "after onComplete");
 
