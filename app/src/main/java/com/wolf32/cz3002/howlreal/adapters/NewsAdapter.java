@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends ArrayAdapter<News> {
-    private static final String TAG = "ReportedNewsAdapter";
+    private static final String TAG = "NewsAdapter";
     private Context mContext;
     private static List<News> newsList = new ArrayList<>();
 

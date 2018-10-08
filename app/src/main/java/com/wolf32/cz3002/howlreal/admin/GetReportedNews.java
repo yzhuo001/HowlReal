@@ -130,7 +130,8 @@ public class GetReportedNews extends AsyncTask<Void, Void, Void> {
                                                 Log.e(TAG, news.getUrl());
                                                 newsList.add(news);
                                                 Log.e(TAG, "added news");
-                                                if (newsList.size() != 0) {
+
+                                                if (newsList.size() != 0 && newsList != null) {
                                                     Log.e(TAG, "retrieveListener.onSuccess");
                                                     retrieveListener.onSuccess(newsList);
                                                 }

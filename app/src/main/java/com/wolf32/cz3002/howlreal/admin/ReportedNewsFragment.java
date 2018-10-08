@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.wolf32.cz3002.howlreal.R;
 import com.wolf32.cz3002.howlreal.ReadNewsActivity;
-import com.wolf32.cz3002.howlreal.adapters.NewsAdapter;
 import com.wolf32.cz3002.howlreal.model.News;
 import com.wolf32.cz3002.howlreal.model.User;
 
@@ -46,7 +45,7 @@ public class ReportedNewsFragment extends Fragment implements GetReportedNews.Re
     private static final String TAG = "ReportedNewsFragment";
     private static String[] title = new String[100];
     private ListView newsListView;
-    private NewsAdapter mAdapter;
+    private ReportedNewsAdapter mAdapter;
     private User mUser;
     private String name;
     private String email;
@@ -113,15 +112,15 @@ public class ReportedNewsFragment extends Fragment implements GetReportedNews.Re
             Log.e(TAG, "args: " + getArguments().getString("type"));
         }
         String category = getArguments().getString("type");
-        GetReportedNews fnd = new GetReportedNews(this);
+        GetReportedNews getReportedNews = new GetReportedNews(this);
 
         int userType = -1;
         if (mUser.isAdmin())
-            userType=1;
+            userType = 1;
         else
-            userType=0;
+            userType = 0;
 
-        fnd.getData(category, userType);
+        getReportedNews.getData(category, userType);
 
 
         return mView;
@@ -154,11 +153,10 @@ public class ReportedNewsFragment extends Fragment implements GetReportedNews.Re
 
     @Override
     public void onSuccess(final ArrayList<News> newsList) {
-        Log.e(TAG, "newsList,size onsuccess: " + newsList.size());
+        Log.e(TAG, "newsList, size onsuccess: " + newsList.size());
 
-        mAdapter = new NewsAdapter(Objects.requireNonNull(getContext()), newsList);
+        mAdapter = new ReportedNewsAdapter(getActivity(), newsList);
         newsListView.setAdapter(mAdapter);
-
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -166,16 +164,15 @@ public class ReportedNewsFragment extends Fragment implements GetReportedNews.Re
 
                 News currentNews = newsList.get(position);
 
-                if (mUser.isAdmin()){
+                if (mUser.isAdmin()) {
                     Log.e(TAG, "admin clicks newsListView");
-                }
-                else{
+                } else {
                     Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("news", currentNews);
                     newsArticleIntent.putExtras(bundle);
 
-                    newsArticleIntent.putExtra("position",position);
+                    newsArticleIntent.putExtra("position", position);
                     startActivity(newsArticleIntent);
                 }
 
