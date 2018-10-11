@@ -43,6 +43,15 @@
         <activity android:name=".PreferencesActivity" />
         <activity android:name=".AccountInfoActivity" />
         <activity android:name=".ReadNewsActivity"></activity>
+        <service
+            android:name=".NotificationService"
+            android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="com.wolf32.cz3002.howlreal.NotificationService" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </service>
     </application>
 
 </manifest>

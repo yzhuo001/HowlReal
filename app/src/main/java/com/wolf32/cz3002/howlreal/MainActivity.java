@@ -1,5 +1,4 @@
 package com.wolf32.cz3002.howlreal;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -308,5 +307,14 @@ public class MainActivity extends AppCompatActivity
                         finish();
                     }
                 });
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        startService(new Intent(this, NotificationService.class));
+
+
+
     }
 }
