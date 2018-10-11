@@ -127,7 +127,9 @@ public class GetReportedNews extends AsyncTask<Void, Void, Void> {
                                                 news.setUrl(mUrl);
                                                 assert mUrl != null;
                                                 news.setNewsId(mUrl.replace("/", ""));
+
                                                 Log.e(TAG, news.getUrl());
+                                                Log.e(TAG, "" + news.getNewsId());
                                                 newsList.add(news);
                                                 Log.e(TAG, "added news");
 

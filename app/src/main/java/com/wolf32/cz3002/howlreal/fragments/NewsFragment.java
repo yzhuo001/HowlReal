@@ -158,11 +158,10 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
 
     @Override
     public void onSuccess(final ArrayList<News> newsList) {
-        Log.e(TAG, "newsList,size onsuccess: " + newsList.size());
+        Log.e(TAG, "newsList, size onsuccess: " + newsList.size());
 
         mAdapter = new NewsAdapter(Objects.requireNonNull(getContext()), newsList);
         newsListView.setAdapter(mAdapter);
-
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

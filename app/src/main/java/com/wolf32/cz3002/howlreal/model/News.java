@@ -67,7 +67,7 @@ public class News implements Serializable {
     }
 
     public void setNewsId(String url){
-
+        this.newsId = url;
     }
 
     public String getAuthor(){
@@ -118,12 +118,6 @@ public class News implements Serializable {
                 .build();
         db.setFirestoreSettings(settings);
 
-        if (url.contains("https")){
-            newsId = url.substring(8,url.length());
-        }
-        else if (url.contains("http")){
-            newsId = url.substring(7,url.length());
-        }
         newsId = newsId.replace("/","");
         final String finalNewsId = newsId;
 
@@ -152,7 +146,7 @@ public class News implements Serializable {
 
                     }
                     else {
-                        Log.d(TAG, "User not in database, adding new user..");
+                        Log.d(TAG, "News not in database, adding new entry..");
 
                         // create a new user to add to firestore cloud
                         db_news.put("title", title);

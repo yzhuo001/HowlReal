@@ -56,8 +56,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/baseline-warning-white-18/2x/baseline_warning_white_18dp.png" />
-                                      <entry key="outputName" value="ic_menu_warning_black" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/baseline-delete-white-18/2x/baseline_delete_white_18dp.png" />
+                                      <entry key="outputName" value="ic_menu_delete_black" />
                                     </map>
                                   </option>
                                 </PersistentState>

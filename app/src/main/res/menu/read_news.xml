@@ -14,4 +14,12 @@
             android:orderInCategory="1"
             app:showAsAction="always"
             android:title="Report News" />
+
+
+        <item
+            android:id="@+id/item_delete_news"
+            android:icon="@drawable/ic_menu_delete_white"
+            android:orderInCategory="2"
+            app:showAsAction="always"
+            android:title="Delete News" />
 </menu>

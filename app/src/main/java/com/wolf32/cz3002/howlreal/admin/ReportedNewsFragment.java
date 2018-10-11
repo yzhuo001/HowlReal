@@ -166,12 +166,21 @@ public class ReportedNewsFragment extends Fragment implements GetReportedNews.Re
 
                 if (mUser.isAdmin()) {
                     Log.e(TAG, "admin clicks newsListView");
+                    Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("news", currentNews);
+                    newsArticleIntent.putExtras(bundle);
+                    newsArticleIntent.putExtra("position", position);
+                    Log.e(TAG,"news name reportednewsfragment: " + currentNews.getSourceName());
+                    Log.e(TAG,"newsId reportednewsfragment: " + currentNews.getNewsId());
+
+                    startActivity(newsArticleIntent);
+
                 } else {
                     Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("news", currentNews);
                     newsArticleIntent.putExtras(bundle);
-
                     newsArticleIntent.putExtra("position", position);
                     startActivity(newsArticleIntent);
                 }

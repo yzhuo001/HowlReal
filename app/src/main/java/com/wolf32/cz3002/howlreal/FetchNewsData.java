@@ -6,14 +6,13 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.wolf32.cz3002.howlreal.model.BlacklistedNews;
 import com.wolf32.cz3002.howlreal.model.News;
 
 import org.json.JSONArray;
@@ -96,6 +95,8 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                 JSONObject jsonObject = new JSONObject(data.substring(4));
                 JSONArray jsonArray = jsonObject.getJSONArray("articles");
 
+
+                newsList.add(getFakeNews());
                 Log.e(TAG, "length: " + jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -121,9 +122,12 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                     news.setPublishedAt(mPublishedAt);
                     news.setUrl(mUrl);
                     news.setNewsId(mUrl.replace("/", ""));
-                    newsList.add(news);
 
+                    newsList.add(news);
                     news.addToDatabase(mUrl);
+
+
+
                 }
 
                 if (newsList.size() != 0) {
@@ -204,11 +208,15 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                                 news.setTitle(mTitle);
                                                 news.setPublishedAt(mPublishedAt);
                                                 news.setUrl(mUrl);
-                                                assert mUrl != null;
-                                                news.setNewsId(mUrl.replace("/", ""));
                                                 Log.e(TAG, news.getUrl());
-                                                newsList.add(news);
-                                                Log.e(TAG, "added news");
+                                                if (mUrl != null){
+                                                    news.setNewsId(mUrl.replace("/", ""));
+                                                }
+                                                else {
+                                                    Log.e(TAG, "news mUrl is null.");
+                                                }
+
+
                                                 if (newsList.size() != 0) {
                                                     Log.e(TAG, "retrieveListener.onSuccess");
                                                     retrieveListener.onSuccess(newsList);
@@ -262,5 +270,52 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
 
     }
 
+    public boolean getBlacklisted(News news){
+        //check if its in blacklist. if yes, dont display to user
+        //get blacklisted news id.
+        String newsId = news.getNewsId();
+        final boolean[] blacklisted = {false};
 
+        db = FirebaseFirestore.getInstance();
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+
+        DocumentReference docRef = db.collection("blacklistedNews").document(newsId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.e(TAG, "Blacklisted News: " + document.getData());
+                        blacklisted[0] = true;
+                    } else {
+                        Log.d(TAG, "No such document");
+                        blacklisted[0] = false;
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        return blacklisted[0];
+    }
+
+
+    public News getFakeNews(){
+        News news = new News();
+        String url = "http://statestimesreview.com/2018/10/03/ho-ching-to-bail-out-friend-olivia-lum-with-more-than-s1-billion-taxes/";
+        news.setUrl(url);
+        news.setNewsId(url.replace("/",""));
+        news.setTitle("Ho Ching to bail out friend Olivia Lum with more than S$1 billion taxes");
+        news.setSourceName("statestimesreview.com");
+        news.setImageUrl("http://statestimesreview.com/wp-content/uploads/2017/11/23511219_1659818277414205_5318980212209748063_o.jpg");
+
+        return news;
+    }
 }

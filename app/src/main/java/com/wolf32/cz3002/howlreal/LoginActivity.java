@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
+import com.wolf32.cz3002.howlreal.model.BlacklistedNews;
 import com.wolf32.cz3002.howlreal.model.User;
 import com.wolf32.cz3002.howlreal.model.UserPreferences;
 
@@ -255,5 +256,6 @@ public class LoginActivity extends AppCompatActivity {
         User.setDefaults(mUser.getUid(), json, this);
         mUser.printUserInfo(TAG);
     }
+
 
 }
