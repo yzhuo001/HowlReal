@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.wolf32.cz3002.howlreal.admin.ReportedNewsFragment;
+import com.wolf32.cz3002.howlreal.fragments.ManageAccountFragment;
 import com.wolf32.cz3002.howlreal.fragments.NewsFragment;
 import com.wolf32.cz3002.howlreal.fragments.SettingsFragment;
 import com.wolf32.cz3002.howlreal.model.Admin;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
-        ReportedNewsFragment.OnFragmentInteractionListener {
+        ReportedNewsFragment.OnFragmentInteractionListener,
+        ManageAccountFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private String name;
@@ -110,9 +112,20 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-            // hide other menu items
+
+            // set title of menu items
             Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_saved_news).setTitle("Reported News");
+            nav_Menu.findItem(R.id.nav_general).setTitle("Manage Accounts");
+            nav_Menu.findItem(R.id.nav_health).setTitle("Push Notification");
+
+            // hide other menu items
+            nav_Menu.findItem(R.id.nav_sports).setVisible(false);
+            nav_Menu.findItem(R.id.nav_science).setVisible(false);
+            nav_Menu.findItem(R.id.nav_technology).setVisible(false);
+            nav_Menu.findItem(R.id.nav_business).setVisible(false);
             nav_Menu.findItem(R.id.nav_entertainment).setVisible(false);
+
 
         } else {
             Log.e(TAG, "onCreate start item 1");
@@ -185,6 +198,8 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_saved_news) {
                 // view saved news
                 toolbar.setTitle("Saved News");
+                fragmentClass = NewsFragment.class;
+                args.putString("type", "saved");
             } else if (id == R.id.nav_general) {
                 // view news fragment
                 toolbar.setTitle("General");
@@ -232,42 +247,19 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setTitle("Reported News");
                 fragmentClass = ReportedNewsFragment.class;
                 args.putString("type", "reportedNews");
-
-            }
-            /*else if (id == R.id.nav_general) {
+            } else if (id == R.id.nav_general) {
                 // view news fragment
-                toolbar.setTitle("General");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "general");
+                toolbar.setTitle("Manage Accounts");
+                fragmentClass = ManageAccountFragment.class;
+                args.putString("type", "manage");
             } else if (id == R.id.nav_health) {
-                toolbar.setTitle("Health");
+                toolbar.setTitle("Push Notifications");
                 fragmentClass = NewsFragment.class;
-                args.putString("type", "health");
-            } else if (id == R.id.nav_sports) {
-                toolbar.setTitle("Sports");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "sports");
-            } else if (id == R.id.nav_science) {
-                toolbar.setTitle("Science");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "science");
-            } else if (id == R.id.nav_technology) {
-                toolbar.setTitle("Technology");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "technology");
-            } else if (id == R.id.nav_business) {
-                toolbar.setTitle("Business");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "business");
-            } else if (id == R.id.nav_entertainment) {
-                toolbar.setTitle("Entertainment");
-                fragmentClass = NewsFragment.class;
-                args.putString("type", "entertainment");
-
-            } */
-            else if (id == R.id.nav_settings) {
+                args.putString("type", "notification");
+            } else if (id == R.id.nav_settings) {
                 //change layout
                 //change preferences
+                toolbar.setTitle("Settings");
                 fragmentClass = SettingsFragment.class;
 
             } else if (id == R.id.nav_logout) {
@@ -309,4 +301,13 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop");
+        startService(new Intent(this, NotificationService.class));
+    }
+
+
 }

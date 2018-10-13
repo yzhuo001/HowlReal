@@ -16,10 +16,9 @@ import java.util.ArrayList;
 
 public class BlacklistedNews {
     private static final String TAG = "BlacklistedNews";
-    private String newsID = "";
+    private String newsID;
 
-    public BlacklistedNews(String newsID){
-        this.newsID = newsID;
+    public BlacklistedNews(){
     }
 
 
@@ -34,7 +33,7 @@ public class BlacklistedNews {
     public void addToDatabase() {
 
         // Access a Cloud Firestore instance from your Activity
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)

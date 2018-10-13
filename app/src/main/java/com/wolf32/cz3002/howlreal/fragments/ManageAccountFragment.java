@@ -5,54 +5,48 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.wolf32.cz3002.howlreal.AccountInfoActivity;
 import com.wolf32.cz3002.howlreal.FetchNewsData;
+import com.wolf32.cz3002.howlreal.ManageAccounts;
 import com.wolf32.cz3002.howlreal.R;
 import com.wolf32.cz3002.howlreal.ReadNewsActivity;
 import com.wolf32.cz3002.howlreal.adapters.NewsAdapter;
+import com.wolf32.cz3002.howlreal.admin.ManagerAccountsAdapter;
 import com.wolf32.cz3002.howlreal.model.News;
 import com.wolf32.cz3002.howlreal.model.User;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NewsFragment.OnFragmentInteractionListener} interface
+ * {@link ManageAccountFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NewsFragment#newInstance} factory method to
+ * Use the {@link ManageAccountFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsFragment extends Fragment implements FetchNewsData.RetrieveListener {
+public class ManageAccountFragment extends Fragment implements ManageAccounts.RetrieveListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "NewsFragment";
-    private static String[] title = new String[100];
-    private ListView newsListView;
-    private NewsAdapter mAdapter;
-    private NewsFragment.OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private User mUser;
-    private String name;
-    private String email;
-    private Uri profilePicUrl;
 
-    public NewsFragment() {
+    private OnFragmentInteractionListener mListener;
+    private ListView accountListView;
+    private ManagerAccountsAdapter mAdapter;
+
+    public ManageAccountFragment() {
         // Required empty public constructor
     }
 
@@ -62,13 +56,11 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NewsFragment.
+     * @return A new instance of fragment ManageAccountFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewsFragment newInstance(String param1, String param2) {
-        Log.e(TAG, "NewsFragment constructor");
-
-        NewsFragment fragment = new NewsFragment();
+    public static ManageAccountFragment newInstance(String param1, String param2) {
+        ManageAccountFragment fragment = new ManageAccountFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,52 +80,20 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.e(TAG, "onCreateView");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            name = user.getDisplayName();
-            email = user.getEmail();
-            profilePicUrl = user.getPhotoUrl();
-            String uid = user.getUid();
-            Uri mUri = user.getPhotoUrl();
-            String uri = "";
-            if (mUri != null) {
-                uri = mUri.toString();
-            }
-            boolean emailVerified = user.isEmailVerified();
-            mUser = new com.wolf32.cz3002.howlreal.model.User(name, uid, email, uri, emailVerified);
-        }
-
-
         // Inflate the layout for this fragment
-        View mView = inflater.inflate(R.layout.fragment_news, container, false);
+        // Inflate the layout for this fragment
+        View mView = inflater.inflate(R.layout.fragment_manage_account, container, false);
 
-        newsListView = (ListView) mView.findViewById(R.id.fragment_news_listView);
+        accountListView = (ListView) mView.findViewById(R.id.fragment_manage_account_listView);
 
-        if (getArguments() != null) {
-            Log.e(TAG, "args: " + getArguments().getString("type"));
-        }
-
-        String category = getArguments().getString("type");
-        FetchNewsData fnd = new FetchNewsData(this);
-
-        int userType = -1;
-        if (mUser.isAdmin())
-            userType = 1;
-        else
-            userType = 0;
-
-        fnd.getData(category, userType);
-
+        ManageAccounts manageAccounts = new ManageAccounts(this);
+        manageAccounts.getAllAccounts();
 
         return mView;
     }
 
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        Log.e(TAG, "pressed.");
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -142,8 +102,8 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof NewsFragment.OnFragmentInteractionListener) {
-            mListener = (NewsFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -157,25 +117,23 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
     }
 
     @Override
-    public void onSuccess(final ArrayList<News> newsList) {
-        Log.e(TAG, "newsList, size onSuccess: " + newsList.size());
+    public void onSuccess(final ArrayList<User> userList) {
+        mAdapter = new ManagerAccountsAdapter(getContext(), userList);
+        accountListView.setAdapter(mAdapter);
 
-        mAdapter = new NewsAdapter(Objects.requireNonNull(getContext()), newsList);
-        newsListView.setAdapter(mAdapter);
-
-        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        accountListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                News currentNews = newsList.get(position);
+                User currentUser = userList.get(position);
 
-                Intent newsArticleIntent = new Intent(newsListView.getContext(), ReadNewsActivity.class);
+                Intent manageAccountIntent = new Intent(accountListView.getContext(), AccountInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("news", currentNews);
-                newsArticleIntent.putExtras(bundle);
+                bundle.putSerializable("user", currentUser);
+                manageAccountIntent.putExtras(bundle);
 
-                newsArticleIntent.putExtra("position", position);
-                startActivity(newsArticleIntent);
+                manageAccountIntent.putExtra("position", position);
+                startActivity(manageAccountIntent);
 
 
             }
@@ -184,7 +142,6 @@ public class NewsFragment extends Fragment implements FetchNewsData.RetrieveList
 
     @Override
     public void onFailure() {
-        Log.e(TAG, "onFailure");
 
     }
 

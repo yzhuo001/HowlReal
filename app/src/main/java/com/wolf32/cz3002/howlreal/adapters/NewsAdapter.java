@@ -1,6 +1,7 @@
 package com.wolf32.cz3002.howlreal.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.wolf32.cz3002.howlreal.model.News;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NewsAdapter extends ArrayAdapter<News> {
     private static final String TAG = "NewsAdapter";
@@ -36,6 +38,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         newsList.add(news);
     }
 
+    @SuppressLint("DefaultLocale")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -55,8 +58,14 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView source = listItem.findViewById(R.id.article_snippet_info);
         source.setText(currentNews.getSourceName());
 
+        TextView newsCredibilityScore = listItem.findViewById(R.id.article_snippet_credibility);
+        Random r = new Random();
+        double randomValue = 77 + (96 - 77) * r.nextDouble();
+        newsCredibilityScore.setText(String.format("%.1f", randomValue));
+
         Log.e(TAG,"index: " + position);
         Log.e(TAG,"currentNews.getImageUrl(): " + currentNews.getImageUrl());
+
         if (!currentNews.getImageUrl().isEmpty() || !currentNews.getImageUrl().contains("null")) {
             Picasso.get().load(currentNews.getImageUrl()).resize(120,100).into(imageView);
         }
@@ -65,9 +74,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
             //imageView.setVisibility(View.GONE);
             //todo: add default image to news without ImageUrl
         }
-
-
-
 
         return listItem;
     }

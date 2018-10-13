@@ -57,23 +57,33 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        } else {
+            // User is signed out
+            Log.d(TAG, "onAuthStateChanged:signed_out");
 
-                new AuthUI.IdpConfig.FacebookBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.EmailBuilder().build()
-                //new AuthUI.IdpConfig.PhoneBuilder().build(),
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
 
-        );
+                    new AuthUI.IdpConfig.FacebookBuilder().build(),
+                    new AuthUI.IdpConfig.GoogleBuilder().build(),
+                    new AuthUI.IdpConfig.EmailBuilder().build()
+                    //new AuthUI.IdpConfig.PhoneBuilder().build(),
+
+            );
 
 
-        //receive intent data after logging in
-        //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
-        //fromSettings = getIntent().getExtras().getBoolean("fromSettings");
+            //receive intent data after logging in
+            //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
+            //fromSettings = getIntent().getExtras().getBoolean("fromSettings");
 
-        // Create and launch sign-in intent
-        ///* // to disable login, uncomment.
+            // Create and launch sign-in intent
+            ///* // to disable login, uncomment.
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -82,18 +92,24 @@ public class LoginActivity extends AppCompatActivity {
                             .setAvailableProviders(providers)
                             .build(),
                     RC_SIGN_IN);
-        //*/
+            //*/
 
-        // Access a Cloud Firestore instance from your Activity
-        db = FirebaseFirestore.getInstance();
 
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
+            // Access a Cloud Firestore instance from your Activity
+            db = FirebaseFirestore.getInstance();
 
-        preferencesIntent = new Intent(this, PreferencesActivity.class);
-        drawerIntent = new Intent(this, MainActivity.class);
+            FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                    .setTimestampsInSnapshotsEnabled(true)
+                    .build();
+            db.setFirestoreSettings(settings);
+
+            preferencesIntent = new Intent(this, PreferencesActivity.class);
+            drawerIntent = new Intent(this, MainActivity.class);
+        }
+
+
+
+
 
     }
 
