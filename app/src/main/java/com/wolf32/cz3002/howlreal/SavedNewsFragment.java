@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -150,6 +152,22 @@ public class SavedNewsFragment extends Fragment implements GetSavedNews.Retrieve
                             "UAE is not the first country, which faced issues related to the emergence of fake news, as a few weeks ago the chairman of Singapore's Monetary Authority, Tharman Shanmugaratnam became the victim of a false story that claimed he is a \"venture capitalist\" who confirmed the entry of Singapore into the bitcoin cryptocurrency market. The Singapore Government and the MAS clarified that this story was published by a fraudulent website, which has been soliciting investments in Bitcoins by using fabricated comments from Deputy Prime Minister Shanmugaratnam.\n\n" +
                             "Even, South Korean Prime minister Lee Nak-yon has decided to take serious actions to combat fake news, as he believes these stories and false information it is a 'destroyer of democracy.' He also had to face criticism due to a misleading photo, which was shared online to defame his personality.\n\n");
                 }
+                if (currentNews.getTitle().equals("Hopes fade for more survivors of Hurricane Michael in US")){
+                    currentNews.setContent("MEXICO BEACH, FLORIDA (REUTERS) - The hunt for missing people in the aftermath of Hurricane Michael early on Sunday (Oct 14) is turning into a search for the dead, as hope of finding more people alive fades in the Florida Panhandle, US officials said.\n\n" +
+                            "\"We're going into recovery mode, unfortunately,\" said Fire Chief Alex Baird of Panama City, one of the coastal Florida communities clobbered by the hurricane that made landfall last Wednesday as a Category 4 storm, packing more than 225kmh winds and deadly storm surges.\n\n" +
+                            "\"At sunrise, we'll start again on our search,\" Mr Baird said. \"We hope that we'll find more (survivors), but it's more and more doubtful.\"\n\n" +
+                            "President Donald Trump is expected to visit both Florida and Georgia early this week to inspect the damage, and the White House said late on Saturday that the President was fully committed to helping state and local agencies with the recovery.\n\n" +
+                            "The death toll of the storm reached at least 18 on Saturday night and is expected to rise in the US South-east as rescuers go door-to-door in coastal communities in Florida, Georgia and the Carolinas.\n\n" +
+                            "Search and rescue volunteers have already located hundreds of people reported missing last week.\n\n" +
+                            "On Saturday, rescue crews heard cries for help and crowbarred into a mobile home crumpled by the storm in Panama City, freeing a mother and daughter, both diabetics who had been trapped in a closet without insulin for two days and were on the verge of diabetic shock, rescuers said.\n\n" +
+                            "Death toll from Michael rises amid search for survivors\n\n" +
+                            "16 deaths in vast trail of destruction after Hurricane Michael hits Florida\n\n" +
+                            "Hurricane Michael, among fiercest in US history, batters Florida Panhandle\n\n" +
+                            "A lack of food and water is among the most pressing issues for people reeling from the storm, said one volunteer who had been working in the Panama City area.\n\n" +
+                            "Rescue teams, hampered by power and telephone outages, used cadaver dogs, drones and heavy equipment to hunt for people in the rubble.\n\n" +
+                            "More than 1,700 search and rescue workers were deployed, including seven swift-water rescue teams and nearly 300 ambulances, Florida Governor Rick Scott's office said.\n\n" +
+                            "Electricity and phone service were being slowly restored, but it could be weeks before power is restored to the most damaged areas.\n\n");
+                }
                 Intent newsArticleIntent = new Intent(savedNewsListView.getContext(), ReadSavedNewsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("news", currentNews);
@@ -184,4 +202,6 @@ public class SavedNewsFragment extends Fragment implements GetSavedNews.Retrieve
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

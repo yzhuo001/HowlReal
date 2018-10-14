@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SavedNewsAdapter extends ArrayAdapter<News> {
-    private static final String TAG = "NewsAdapter";
+    private static final String TAG = "SavedNewsAdapter";
     private Context mContext;
     private static List<News> savedNewsList = new ArrayList<>();
 
@@ -46,6 +46,7 @@ public class SavedNewsAdapter extends ArrayAdapter<News> {
         News currentNews = savedNewsList.get(position);
 
         ImageView imageView = listItem.findViewById(R.id.article_snippet_photo);
+        imageView.setVisibility(View.GONE);
 
         TextView title = listItem.findViewById(R.id.article_snippet_title);
         title.setText(currentNews.getTitle());

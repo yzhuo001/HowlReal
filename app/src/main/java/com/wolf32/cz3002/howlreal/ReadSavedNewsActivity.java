@@ -53,6 +53,12 @@ public class ReadSavedNewsActivity extends AppCompatActivity {
     }
 
 
+    public void removeSavedNews(){
+
+
+    }
+
+
 
 
 }

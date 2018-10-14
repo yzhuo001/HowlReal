@@ -60,8 +60,14 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         TextView newsCredibilityScore = listItem.findViewById(R.id.article_snippet_credibility);
         Random r = new Random();
-        double randomValue = 77 + (96 - 77) * r.nextDouble();
-        newsCredibilityScore.setText(String.format("%.1f", randomValue));
+
+        if (currentNews.getTitle().equals("Ho Ching to bail out friend Olivia Lum with more than S$1 billion taxes")){
+            newsCredibilityScore.setText(String.format("%.1f", 51.3));
+        }
+        else{
+            double randomValue = 77 + (96 - 77) * r.nextDouble();
+            newsCredibilityScore.setText(String.format("%.1f", randomValue));
+        }
 
         Log.e(TAG,"index: " + position);
         Log.e(TAG,"currentNews.getImageUrl(): " + currentNews.getImageUrl());

@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity
                 //change layout
                 //change preferences
                 fragmentClass = SettingsFragment.class;
+                toolbar.setTitle("Settings");
 
             } else if (id == R.id.nav_logout) {
                 //logout implementation
