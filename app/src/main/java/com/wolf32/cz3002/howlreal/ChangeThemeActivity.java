@@ -96,9 +96,7 @@ public class ChangeThemeActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(btn_save.getContext(),
-                        "Saved!", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(btn_save.getContext(),"Saved!", Toast.LENGTH_LONG).show();
             }
         });
 
