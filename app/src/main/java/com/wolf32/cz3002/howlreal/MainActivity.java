@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (mUser != null) {
+        if (mUser != null && isOnline()) {
 
             //start general category
             if (mUser.isAdmin()) {
@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-
             // menu items
             Menu nav_Menu = navigationView.getMenu();
             nav_Menu.findItem(R.id.nav_saved_news).setTitle("Saved News");
@@ -159,6 +158,8 @@ public class MainActivity extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_technology).setVisible(false);
             nav_Menu.findItem(R.id.nav_business).setVisible(false);
             nav_Menu.findItem(R.id.nav_entertainment).setVisible(false);
+            nav_Menu.findItem(R.id.nav_settings).setVisible(false);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
         }
         //receive intent data after logging in
         //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
