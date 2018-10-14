@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangeThemeActivity">
+
+    <Button
+        android:id="@+id/btn_default"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="4dp"
+        android:text="Default"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
+        android:id="@+id/btn_red"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Red"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
+        android:id="@+id/btn_green"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Green"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
+        android:id="@+id/btn_pink"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Pink"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
+        android:id="@+id/btn_gray"
+        style="@style/FirebaseUI.Button.AccountChooser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:text="Grey"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/FirebaseUI.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Save"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@android:color/black" />
+</LinearLayout>

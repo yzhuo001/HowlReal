@@ -16,6 +16,7 @@ import android.widget.Switch;
 
 import com.google.gson.Gson;
 import com.wolf32.cz3002.howlreal.AccountInfoActivity;
+import com.wolf32.cz3002.howlreal.ChangeThemeActivity;
 import com.wolf32.cz3002.howlreal.LoginActivity;
 import com.wolf32.cz3002.howlreal.PreferencesActivity;
 import com.wolf32.cz3002.howlreal.R;
@@ -96,6 +97,15 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent accountInfoIntent = new Intent(getContext(), AccountInfoActivity.class);
                 startActivity(accountInfoIntent);
+            }
+        });
+
+        Button btn_change_theme = mView.findViewById(R.id.btn_layout_theme);
+        btn_change_theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent changeThemeIntent = new Intent(getContext(), ChangeThemeActivity.class);
+                startActivity(changeThemeIntent);
             }
         });
 
