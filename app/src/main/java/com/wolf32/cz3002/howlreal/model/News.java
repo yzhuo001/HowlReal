@@ -1,6 +1,9 @@
 package com.wolf32.cz3002.howlreal.model;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,8 +16,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -188,5 +193,45 @@ public class News implements Serializable {
         });
 
     }
+
+    public static void setDefaults(News currNews, Context context) {
+        Gson gson = new Gson();
+
+        // get shared preferences
+        String savedNews = getDefaults("savedNews", context);
+        Log.e(TAG, "setDefaults savedNews: " + savedNews);
+        TypeToken<ArrayList<News>> token = new TypeToken<ArrayList<News>>() {};
+        ArrayList<News> savedNewsList = gson.fromJson(savedNews, token.getType());
+        Log.e(TAG, "setDefaults savedNewsList: " + savedNewsList);
+
+        if (savedNewsList == null){
+            savedNewsList = new ArrayList<>();
+        }
+        // add news to SavedNewsList
+        savedNewsList.add(currNews);
+
+        // save list
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        String json = gson.toJson(savedNewsList);
+        editor.putString("savedNews", json);
+        editor.apply();
+    }
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
+    }
+
+
+    public ArrayList<News> loadNewsOffline(Context context){
+        Gson gson = new Gson();
+        String savedNews = getDefaults("savedNews", context);
+        TypeToken<ArrayList<News>> token = new TypeToken<ArrayList<News>>() {};
+        ArrayList<News> savedNewsList = gson.fromJson(savedNews, token.getType());
+
+        return savedNewsList;
+    }
+
 
 }

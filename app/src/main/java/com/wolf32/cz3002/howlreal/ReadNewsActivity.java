@@ -111,7 +111,9 @@ public class ReadNewsActivity extends AppCompatActivity {
             item_rn.setVisible(false);
         } else {
             MenuItem item_sn = menu.findItem(R.id.item_delete_news);
+            MenuItem item_pn = menu.findItem(R.id.item_push_news);
             item_sn.setVisible(false);
+            item_pn.setVisible(false);
         }
 
 
@@ -128,7 +130,7 @@ public class ReadNewsActivity extends AppCompatActivity {
                     item.setIcon(R.drawable.ic_menu_star_black);
 
                     //save news offline in local storage or defaultsharedpref.
-
+                    News.setDefaults(news,this);
 
                     Toast.makeText(getApplicationContext(), "Article Saved.", Toast.LENGTH_SHORT).show();
                 } else {

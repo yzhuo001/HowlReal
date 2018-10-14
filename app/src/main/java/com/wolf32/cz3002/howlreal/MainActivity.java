@@ -2,6 +2,8 @@ package com.wolf32.cz3002.howlreal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -39,7 +41,8 @@ public class MainActivity extends AppCompatActivity
         NewsFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
         ReportedNewsFragment.OnFragmentInteractionListener,
-        ManageAccountFragment.OnFragmentInteractionListener {
+        ManageAccountFragment.OnFragmentInteractionListener,
+        SavedNewsFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainActivity";
     private String name;
@@ -80,13 +83,17 @@ public class MainActivity extends AppCompatActivity
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mUser.isAdmin()) {
-            toolbar.setTitle("Reported News");
 
-        } else {
-            toolbar.setTitle("General");
+        if (mUser != null){
+            if (mUser.isAdmin()) {
+                toolbar.setTitle("Reported News");
+
+            } else {
+                toolbar.setTitle("General");
+            }
+            setSupportActionBar(toolbar);
         }
-        setSupportActionBar(toolbar);
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -106,34 +113,53 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //start general category
-        if (mUser.isAdmin()) {
+        if (mUser != null) {
+
+            //start general category
+            if (mUser.isAdmin()) {
+                Log.e(TAG, "onCreate start item 0");
+                navigationView.getMenu().getItem(0).setChecked(true);
+                onNavigationItemSelected(navigationView.getMenu().getItem(0));
+
+
+                // set title of menu items
+                Menu nav_Menu = navigationView.getMenu();
+                nav_Menu.findItem(R.id.nav_saved_news).setTitle("Reported News");
+                nav_Menu.findItem(R.id.nav_general).setTitle("Manage Accounts");
+                nav_Menu.findItem(R.id.nav_health).setTitle("Push Notification");
+
+                // hide other menu items
+                nav_Menu.findItem(R.id.nav_sports).setVisible(false);
+                nav_Menu.findItem(R.id.nav_science).setVisible(false);
+                nav_Menu.findItem(R.id.nav_technology).setVisible(false);
+                nav_Menu.findItem(R.id.nav_business).setVisible(false);
+                nav_Menu.findItem(R.id.nav_entertainment).setVisible(false);
+
+
+            } else {
+                Log.e(TAG, "onCreate start item 1");
+                navigationView.getMenu().getItem(1).setChecked(true);
+                onNavigationItemSelected(navigationView.getMenu().getItem(1));
+
+            }
+        }
+        else{ // offline mode
             Log.e(TAG, "onCreate start item 0");
             navigationView.getMenu().getItem(0).setChecked(true);
             onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
 
-            // set title of menu items
+            // menu items
             Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem(R.id.nav_saved_news).setTitle("Reported News");
-            nav_Menu.findItem(R.id.nav_general).setTitle("Manage Accounts");
-            nav_Menu.findItem(R.id.nav_health).setTitle("Push Notification");
-
-            // hide other menu items
+            nav_Menu.findItem(R.id.nav_saved_news).setTitle("Saved News");
+            nav_Menu.findItem(R.id.nav_general).setVisible(false);
+            nav_Menu.findItem(R.id.nav_health).setVisible(false);
             nav_Menu.findItem(R.id.nav_sports).setVisible(false);
             nav_Menu.findItem(R.id.nav_science).setVisible(false);
             nav_Menu.findItem(R.id.nav_technology).setVisible(false);
             nav_Menu.findItem(R.id.nav_business).setVisible(false);
             nav_Menu.findItem(R.id.nav_entertainment).setVisible(false);
-
-
-        } else {
-            Log.e(TAG, "onCreate start item 1");
-            navigationView.getMenu().getItem(1).setChecked(true);
-            onNavigationItemSelected(navigationView.getMenu().getItem(1));
-
         }
-
         //receive intent data after logging in
         //mUser = (com.wolf32.cz3002.howlreal.model.User) getIntent().getSerializableExtra("user");
 
@@ -193,12 +219,21 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
         Bundle args = new Bundle();
 
-        if (!mUser.isAdmin()) {
+        if (mUser == null){
+            Log.e(TAG, "user offline");
+            if (id == R.id.nav_saved_news) {
+                // view saved news
+                toolbar.setTitle("Saved News");
+                fragmentClass = SavedNewsFragment.class;
+                args.putString("type", "saved");
+            }
+        }
+        else if (!mUser.isAdmin()) {
             Log.e(TAG, "user");
             if (id == R.id.nav_saved_news) {
                 // view saved news
                 toolbar.setTitle("Saved News");
-                fragmentClass = NewsFragment.class;
+                fragmentClass = SavedNewsFragment.class;
                 args.putString("type", "saved");
             } else if (id == R.id.nav_general) {
                 // view news fragment
@@ -307,6 +342,16 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
         Log.e(TAG, "onStop");
         startService(new Intent(this, NotificationService.class));
+    }
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

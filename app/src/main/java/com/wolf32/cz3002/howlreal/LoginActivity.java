@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        preferencesIntent = new Intent(this, PreferencesActivity.class);
+        drawerIntent = new Intent(this, MainActivity.class);
+
+        if (!isOnline()){
+            startActivity(drawerIntent);
+        }
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
@@ -103,8 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                     .build();
             db.setFirestoreSettings(settings);
 
-            preferencesIntent = new Intent(this, PreferencesActivity.class);
-            drawerIntent = new Intent(this, MainActivity.class);
+
         }
 
 
@@ -273,5 +281,16 @@ public class LoginActivity extends AppCompatActivity {
         mUser.printUserInfo(TAG);
     }
 
+
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

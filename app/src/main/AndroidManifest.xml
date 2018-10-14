@@ -54,6 +54,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".ReadSavedNewsActivity"></activity>
     </application>
 
 </manifest>

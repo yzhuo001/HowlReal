@@ -43,7 +43,7 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
     }
 
 
-    public void getData(String category, int userType) {
+    public void getData(final String category, int userType) {
         Log.e(TAG, "getData");
         if (userType == 1) { // admin
             if (category.equals("reportedNews")) {
@@ -168,7 +168,9 @@ public class FetchNewsData extends AsyncTask<Void, Void, Void> {
                                 }
                             } else {
                                 Log.d(TAG, "No such document");
-                                newsList.add(getFakeNews());
+                                if (category.equals("general")) {
+                                    newsList.add(getFakeNews());
+                                }
                                 Log.e(TAG, "length: " + jsonArray.length());
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     try {
