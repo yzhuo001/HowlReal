@@ -2,6 +2,9 @@
 ![alt text](https://github.com/yzhuo001/HowlReal/blob/master/app/src/main/ic_launcher-web.png)
 
 
+## About
+HowlReal is an Android applications that provides users news from various sources. But this isnt any news aggreagator, HowlReal provides fake news classification through crowd sourcing
+
 ## Prerequisite:
 1) Android Studio 3.1.4
 2) Build tool using SDK 28
